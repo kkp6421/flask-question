@@ -1,7 +1,0 @@
-Flask==1.0.2
-Flask-login
-flask-sqlalchemy
-rauth
-flask-wtf
-python-dotenv
-psycopg2
