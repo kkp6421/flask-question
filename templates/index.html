@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}トップページ{% endblock %}
+{% block content %}
+    <br/>
+{% if current_user.is_authenticated!=True %}
+    <h6>知恵の木はTwitterと連携した質問サイトです。</h6>
+    <div class="row">
+        <div class="col-md-3 col-2 col-lg-3">&nbsp;</div>
+        <div class="col-md-6 col-8 col-lg-6">
+            <div class="rounded-circle" style="background-color: white;">
+                <img src="./static/tree.png" width="150" style="margin: 0 auto; display: block">
+            </div>
+        </div>
+        <div class="col-md-3 col-2 col-lg-3">&nbsp;</div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3 col-md-2 col-lg-5"></div>
+        <div class="col-md-6 col-8 col-lg-6">
+            <a href="/oauth/twitter" class="btn btn-info">
+                <span class="fa fa-twitter">Twitterでログイン</span>
+            </a></div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-3 col-4 col-lg-3"></div>
+        <div class="col-md-6 col-6 col-lg-6">
+            <a href="/logout" class="btn btn-danger">ログアウト</a>
+        </div>
+        <div class="col-md-3 col-2 col-lg-3"></div>
+
+    </div>
+    {% endif %}
+{% endblock %}
