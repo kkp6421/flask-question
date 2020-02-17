@@ -5,3 +5,5 @@ rauth
 flask-wtf
 python-dotenv
 psycopg2
+flask-script
+flask-migrate

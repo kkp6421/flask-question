@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}トップページ{% endblock %}
+{% block title %}知恵の木{% endblock %}
 {% block content %}
     <br/>
 {% if current_user.is_authenticated!=True %}
@@ -15,16 +15,16 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3 col-md-2 col-lg-5"></div>
-        <div class="col-md-6 col-8 col-lg-6">
+        <div class="col-2 col-md-3 col-lg-4"></div>
+        <div class="col-md-6 col-8 col-lg-4 btn">
             <a href="/oauth/twitter" class="btn btn-info">
-                <span class="fa fa-twitter">Twitterでログイン</span>
+                <span class="fa fa-twitter">Twitterと連携</span>
             </a></div>
     </div>
     {% else %}
     <div class="row">
-        <div class="col-md-3 col-4 col-lg-3"></div>
-        <div class="col-md-6 col-6 col-lg-6">
+        <div class="col-md-3 col-3 col-lg-3"></div>
+        <div class="col-md-6 col-6 col-lg-6 btn">
             <a href="/logout" class="btn btn-danger">ログアウト</a>
         </div>
         <div class="col-md-3 col-2 col-lg-3"></div>

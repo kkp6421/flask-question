@@ -15,34 +15,44 @@
             background-color: #F3F3F3;
             font-family: Franklin Gothic Medium;
         }
-        .nav-link:hover{
-            background-color: #F5F5F5;
+        .nav-item:hover{
+            background-color: #f3f3f3;
         }
-
+        .nav-pills .nav-item .nav-link:not(.active) {
+            color: #5bc0de;
+            background-color: white;
+        }
+        .nav-pills .nav-item .nav-link {
+            color: white;
+            background-color: #5bc0de;
+        }
+        nav .navbar-nav li a{
+            color: #5bc0de !important;
+        }
     </style>
     {% endblock %}
 </head>
 <body>
     <nav class="navbar navbar-white bg-white">
-        <a class="navbar-brand" href="/"><img src="./static/tree.png" width="60"></a>
+        <a class="navbar-brand" href="/"><img src="./static/tree.png" width="60" style="margin: -15px; padding-left: 10px;"></a>
         <div class="border rounded border-info">
             {% if current_user.is_authenticated != True %}
                 <span style="font-size: 15px;" class="text-info">ログインして下さい</span>
             {% else %}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dropdownContent" aria-controls="dropdownContent" aria-expanded="false" aria-label="Toggle navigation">
-                <img src="{{ current_user.user_image_url }}" width="40" class="rounded-circle">
+                <img src="{{ current_user.user_image_url }}" width="28" class="rounded-circle">
                 <span style="font-size: 15px;" class="text-info">Account</span><br/>
             </button>
             {% endif %}
         </div>
         <div class="collapse navbar-collapse" id="dropdownContent">
-            <hr style="background-color: gray; position: relative; left: -3vh; top: 0vh; width: 110%;">
-            <ul class="navbar-nav mr-auto nav-right">
-                <li class="nav-item">
-                    <a class="nav-link" href="/help" style="padding-left: 10px;">ヘルプ</a>
+            <hr style="background-color: #f0f0f0; position: relative; left: -3vh; top: -1.2vh; width: 110%;">
+            <ul class="navbar-nav mr-auto nav-right" style="margin-top: -15px;">
+                <li class="nav-item" style="margin: -1px; padding-left: 5px;">
+                    <a class="nav-link" href="#" style="font-size: 15px;">ヘルプ</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/contact" style="padding-left: 10px;">連絡先</a>
+                <li class="nav-item" style="margin: -1px; padding-left: 5px;">
+                    <a class="nav-link" href="#" style="font-size: 15px;">連絡先</a>
                 </li>
             </ul>
         </div>
