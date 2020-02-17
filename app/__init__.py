@@ -7,6 +7,8 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 csrf = CSRFProtect()
 
+
+
 def create_app():
     app = Flask(__name__)
     base_dir = os.path.abspath(os.path.dirname(__file__))
