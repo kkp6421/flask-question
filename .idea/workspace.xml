@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1b45282a-c3bb-457a-8bb4-efa2259e80ef" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/send_question.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/data.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/app/data.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/errors/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/errors/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/401.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/401.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/500.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/500.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/error.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/recieved.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/show_recieved.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/send.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/show_send.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/show_user.html" afterDir="false" />
-    </list>
+    <list default="true" id="1b45282a-c3bb-457a-8bb4-efa2259e80ef" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +25,7 @@
           <entry key="gitignore" value="3" />
           <entry key="html" value="63" />
           <entry key="png" value="5" />
-          <entry key="py" value="104" />
+          <entry key="py" value="105" />
           <entry key="sqlite" value="8" />
           <entry key="txt" value="5" />
           <entry key="yml" value="11" />
@@ -54,7 +38,7 @@
           <entry key="HTML" value="63" />
           <entry key="Image" value="5" />
           <entry key="PLAIN_TEXT" value="25" />
-          <entry key="Python" value="104" />
+          <entry key="Python" value="105" />
           <entry key="YAML_EX" value="11" />
         </counts>
       </usages-collector>
@@ -82,7 +66,21 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/errors/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#33#0" expanded="true" />
+                <marker date="1582039503553" expanded="true" signature="317:362" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -153,6 +151,12 @@
               <item name="kkp6421-flask-question" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="kkp6421-flask-question" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kkp6421-flask-question" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="errors" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -216,7 +220,8 @@
     <configuration />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12227363" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -500,8 +505,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/errors/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="128">
+          <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
           <folding>
             <element signature="e#0#33#0" expanded="true" />
             <marker date="1582039503553" expanded="true" signature="317:362" ph="..." />
