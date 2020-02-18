@@ -29,9 +29,7 @@ class Question(db.Model):
     __tablename__ = 'questions'
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(256))
-    profile_image_url = db.Column(db.String(1024))
     date_published = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    answer_image_url = db.Column(db.String(1024))
     answer_body = db.Column(db.String(256))
 
     users = db.relationship(

@@ -34,7 +34,7 @@
 </head>
 <body>
     <nav class="navbar navbar-white bg-white">
-        <a class="navbar-brand" href="/"><img src="./static/tree.png" width="60" style="margin: -15px; padding-left: 10px;"></a>
+        <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='tree.png') }}" width="60" style="margin: -15px; padding-left: 10px;"></a>
         <div class="border rounded border-info">
             {% if current_user.is_authenticated != True %}
                 <span style="font-size: 15px;" class="text-info">ログインして下さい</span>
@@ -57,6 +57,17 @@
             </ul>
         </div>
     </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+        {% if messages %}
+            {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{ message }}
+                    </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div class="container">
         {% block content %}
         {% endblock %}
