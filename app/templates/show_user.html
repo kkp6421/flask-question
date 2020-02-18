@@ -1,4 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-show_user.html
+    <br/>
+    <h6>{{ profile_user.username }}&nbsp;さんに質問を送る</h6>
+    <div class="">
+        <form action="/send_question" method="post">
+            <div class="form-group">
+                <textarea class="form-control" name="body" rows="3" placeholder="質問を入力してください。"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="recieve_user_id" value="{{ profile_user.id }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            </div>
+            <button type="submit" class="btn btn-info">質問する</button>
+        </form>
+    </div>
 {% endblock %}

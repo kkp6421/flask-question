@@ -8,10 +8,6 @@ from .. import db
 def index():
     return render_template('index.html')
 
-"""
-User.questions[0].users[0]の[0]が質問者,[1]が自分宛ての質問、[2:]が自分宛でない質問となる。
-question_recievedは質問の送り主に直接指定された質問
-"""
 
 #受け取った質問一覧表示
 @main.route("/recieved")
@@ -21,7 +17,7 @@ def show_recieved():
         all_questions = user.questions
         questions_recieved = []
         for q in all_questions:
-            if q.users[1].id == user.id:
+            if q.recieve_id == user.id:
                 questions_recieved.append(q)
             else:
                 pass
@@ -33,7 +29,8 @@ def show_recieved():
         flash("ログインしてください。", "danger")
         return redirect(url_for('main.index'))
 
-"""自分宛以外の質問にも答えられるがそれは宛られたUserが答えてから可能となる"""
+"""自分宛以外の質問にも答えられるがそれは宛られたUserが答えてから可能となる
+未回答の質問は公開されないので"""
 
 #送った質問一覧表示
 @main.route("/send")
@@ -43,7 +40,7 @@ def show_send():
         all_questions = user.questions
         questions_send = []
         for q in all_questions:
-            if q.users[0].id == user.id:
+            if q.send_id == user.id:
                 questions_send.append(q)
             else:
                 pass
@@ -64,15 +61,14 @@ def show_question(id):
         return redirect(url_for('main.index'))
 
 
-
 #userの詳細表示
-@main.route("/user/<username>")
-def question(username):
+@main.route("/user/<user_id>")
+def question(user_id):
     user = current_user
     if user.is_authenticated:
-        profile_user = User.query.filter_by(twitter_id=username).first()
+        profile_user = User.query.filter_by(user_id=user_id).first()
         if profile_user is None:
-            return render_template('404.html')
+            return render_template('error/404.html')
         else:
             return render_template('show_user.html', profile_user=profile_user)
     else:
@@ -80,22 +76,25 @@ def question(username):
         return redirect(url_for('main.index'))
 
 #質問を送る処理
-@main.route("/user/<username>/send_question", methods=['GET', 'POST'])
-def send_question(username):
+@main.route("/send_question", methods=['POST'])
+def send_question():
     send_user = current_user
     if send_user.is_authenticated:
-        recieve_user = User.query.filter_by(username=username).first()
-        if recieve_user is None:
-            return render_template('404.html')
         if request.form['body']:
+
+            recieve_user_id = request.form['recieve_user_id']
+            recieve_user = User.query.filter_by(id=recieve_user_id).first()
+
             new_question = Question(body=request.form['body'])
+            new_question.send_id = send_user.id
             new_question.users.append(send_user)
+            new_question.recieve_id = recieve_user.id
             new_question.users.append(recieve_user)
             db.session.add(new_question)
             db.session.commit()
-            return redirect(url_for(main.index))
+            return redirect(url_for('main.show_send'))
         else:
-            render_template('send_question.html', send_user=send_user, recieve_user=recieve_user)
+            pass
     else:
         flash("ログインしてください", "danger")
         return redirect(url_for('main.index'))
