@@ -1,6 +1,6 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import current_user, login_required
-from app.models import User, Question
+from app.models import User, Question, UserQuestion
 from . import main
 from .. import db
 
@@ -14,16 +14,21 @@ def index():
 def show_recieved():
     user = current_user
     if user.is_authenticated:
-        all_questions = user.questions
-        questions_recieved = []
-        for q in all_questions:
-            if q.recieve_id == user.id:
-                questions_recieved.append(q)
-            else:
-                pass
+        all_questions_recieved = Question.query.filter_by(recieve_id=user.id).all() #受け取った全ての質問
+        questions_recieved_answered = [] #答えた質問
+        questions_recieved_not_answered = [] #答えてない質問
+        for q in all_questions_recieved:
+            for i in range(len(q.user_question)):
+                if q.user_question[i].answer_body is None and q.user_question[i].user_id == user.id:
+                    questions_recieved_not_answered.append(q)
+                elif q.user_question[i].answer_body is not None and q.user.question[i].user_id == user.id:
+                    questions_recieved_answered.append(q)
+                else:
+                    pass
         return render_template('show_recieved.html',
                                user=user,
-                               questions_recieved=questions_recieved
+                               questions_recieved_answered=questions_recieved_answered,
+                               questions_recieved_not_answered=questions_recieved_not_answered
                                )
     else:
         flash("ログインしてください。", "danger")
@@ -37,14 +42,20 @@ def show_recieved():
 def show_send():
     user = current_user
     if user.is_authenticated:
-        all_questions = user.questions
-        questions_send = []
-        for q in all_questions:
-            if q.send_id == user.id:
-                questions_send.append(q)
-            else:
-                pass
-        return render_template('show_send.html', questions_send=questions_send)
+        all_questions_send = Question.query.filter_by(send_id=user.id).all() #送った全ての質問
+        questions_send_answered = [] #答えられたして質問
+        questions_send_not_answered = [] #答えられてない質問
+        for q in all_questions_send:
+            for i in range(len(q.user_question)):
+                if q.user_question[i].answer_body is None:
+                    questions_send_not_answered.append(q)
+                elif q.user_question[i].answer_body is not None:
+                    questions_send_answered.append(q)
+                else:
+                    pass
+        return render_template('show_send.html',
+                               questions_send_answered=questions_send_answered,
+                               questions_send_not_answered=questions_send_not_answered)
     else:
         flash("ログインしてください。", "danger")
         return redirect(url_for('main.index'))
@@ -55,41 +66,49 @@ def show_question(id):
     user = current_user
     if user.is_authenticated:
         question = Question.filter_by(id=int(id)).first()
-        return render_template('show_question.html')
+        return render_template('show_question.html', question=question)
     else:
         flash("ログインしてください", "danger")
         return redirect(url_for('main.index'))
 
 
 #userの詳細表示
-@main.route("/user/<user_id>")
-def question(user_id):
+@main.route("/user/<screen_name>")
+def question(screen_name):
     user = current_user
     if user.is_authenticated:
-        profile_user = User.query.filter_by(user_id=user_id).first()
+        profile_user = User.query.filter_by(screen_name=screen_name).all()[0]
         if profile_user is None:
             return render_template('error/404.html')
         else:
+            questions_all = profile_user.questions
+            questions_ans_all = []
+            for q in questions_all:
+                if q.recieve_id == profile_user.id and q.answer_body is not None:
+                    questions_ans_all.append(q)
+
             return render_template('show_user.html', profile_user=profile_user)
     else:
         flash("ログインしてください", "danger")
         return redirect(url_for('main.index'))
 
 #質問を送る処理
+#recive_userだけQuestionとrelationする。
 @main.route("/send_question", methods=['POST'])
 def send_question():
     send_user = current_user
     if send_user.is_authenticated:
         if request.form['body']:
-
             recieve_user_id = request.form['recieve_user_id']
             recieve_user = User.query.filter_by(id=recieve_user_id).first()
-
             new_question = Question(body=request.form['body'])
             new_question.send_id = send_user.id
-            new_question.users.append(send_user)
             new_question.recieve_id = recieve_user.id
-            new_question.users.append(recieve_user)
+            #リレーション開始
+            user_question = UserQuestion()
+            user_question.question = new_question
+            recieve_user.user_question.apend(user_question)
+            db.session.add(recieve_user)
             db.session.add(new_question)
             db.session.commit()
             return redirect(url_for('main.show_send'))

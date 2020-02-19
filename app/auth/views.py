@@ -8,8 +8,8 @@ from . import auth
 
 service = OAuth1Service(
     name='twitter',
-    consumer_key=os.environ.get("consumer_key"),
-    consumer_secret=os.environ.get("consumer_secret"),
+    consumer_key=os.environ.get("consumer_development_key"),
+    consumer_secret=os.environ.get("consumer_development_secret"),
     request_token_url='https://api.twitter.com/oauth/request_token',
     authorize_url='https://api.twitter.com/oauth/authorize',
     access_token_url='https://api.twitter.com/oauth/access_token',
@@ -27,7 +27,7 @@ def oauth_authorize():
         return redirect(url_for('main.index'))
     else:
         request_token = service.get_request_token(
-            params={'oauth_callback': 'https://kkp6421-flask-question.herokuapp.com/oauth/twitter/callback?provider=twitter'}
+            params={'oauth_callback': 'http://192.168.99.100:5000/oauth/twitter/callback?provider=twitter'}
         )
         session['request_token'] = request_token
         return redirect(service.get_authorize_url(request_token[0]))
@@ -42,6 +42,7 @@ def oauth_callback():
     )
     profile = oauth_session.get('account/verify_credentials.json').json()
     twitter_id = str(profile.get('id'))
+    screen_name = str(profile.get('screen_name'))
     username = str(profile.get('name'))
     description = str(profile.get('description'))
     profile_image_url = str(profile.get('profile_image_url'))
@@ -50,7 +51,7 @@ def oauth_callback():
         user.twitter_id = twitter_id
         user.username = username
     else:
-        user = User(twitter_id=twitter_id, username=username, description=description, user_image_url=profile_image_url)
+        user = User(screen_name=screen_name, twitter_id=twitter_id, username=username, description=description, user_image_url=profile_image_url)
     db.session.add(user)
     db.session.commit()
     login_user(user, True)

@@ -14,32 +14,22 @@
 <div class="tab-content">
     <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
       未回答一覧<br/><br/>
-      {% if questions_recieved|length == 0 %}
+      {% if questions_recieved_not_answered|length == 0 %}
         質問がありません。
       {% else %}
-        {% set ns = namespace(cnt = 0) %}
-        {% for question_recieved in questions_recieved %}
-          {% if question_recieved.answer_body is none %}
-            {% set ns.cnt = ns.cnt + 1 %}
-            {{ question_recieved }}
-          {% endif %}
+        {% for question_recieved_not_answerd in questions_recieved_not_answered %}
+          {{ question_recieved_not_answered }}
         {% endfor %}
-        {% if ns.cnt == 0 %}
-          <br/>質問がありません。
-        {% endif %}
       {% endif %}
     </div>
     <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
       回答済み一覧<br/><br/>
-      {% if questions_recieved|length == 0 %}
+      {% if questions_recieved_answered|length == 0 %}
         質問がありません。
       {% else %}
         {% set ns = namespace(cnt = 0) %}
-        {% for question_recieved in questions_recieved %}
-          {% if question_recieved.answer_body is not none %}
-            {% set ns.cnt = ns.cnt + 1 %}
-            {{ question_recieved }}
-          {% endif %}
+        {% for question_recieved_answered in questions_recieved_answered %}
+          {{ question_recieved_answered }}
         {% endfor %}
         {% if ns.cnt == 0 %}
           <br/>質問がありません。

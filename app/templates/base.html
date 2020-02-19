@@ -45,17 +45,22 @@
             </button>
             {% endif %}
         </div>
-        <div class="collapse navbar-collapse" id="dropdownContent">
-            <hr style="background-color: #f0f0f0; position: relative; left: -3vh; top: -1.2vh; width: 110%;">
-            <ul class="navbar-nav mr-auto nav-right" style="margin-top: -15px;">
-                <li class="nav-item" style="margin: -1px; padding-left: 5px;">
-                    <a class="nav-link" href="#" style="font-size: 15px;">ヘルプ</a>
-                </li>
-                <li class="nav-item" style="margin: -1px; padding-left: 5px;">
-                    <a class="nav-link" href="#" style="font-size: 15px;">連絡先</a>
-                </li>
-            </ul>
-        </div>
+        {% if current_user.is_authenticated == True %}
+            <div class="collapse navbar-collapse" id="dropdownContent">
+                <hr style="background-color: #f0f0f0; position: relative; left: -3vh; top: -1.2vh; width: 110%;">
+                <ul class="navbar-nav mr-auto nav-right" style="margin-top: -15px;">
+                    <li class="nav-item" style="margin: -1px; padding-left: 5px;">
+                        <a class="nav-link" href="/user/{{ current_user.screen_name }}" style="font-size: 15px;">マイページ</a>
+                    </li>
+                    <li class="nav-item" style="margin: -1px; padding-left: 5px;">
+                        <a class="nav-link" href="/recieved" style="font-size: 15px;">届いた質問</a>
+                    </li>
+                    <li class="nav-item" style="margin: -1px; padding-left: 5px;">
+                        <a class="nav-link" href="/send" style="font-size: 15px;">送った質問</a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %}
         <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->

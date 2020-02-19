@@ -8,22 +8,27 @@ class UserQuestion(db.Model):
     __tablename__ = 'users_questions'
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
+    answer_body = db.Column(db.String(256))
+    user = db.relationship('User')
+    question = db.relationship('Question')
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(UUIDType(binary=False), default=uuid.uuid4, nullable=False, unique=True)
-    username = db.Column(db.String(64))
+    screen_name = db.Column(db.String(128), nullable=False, unique=True)
+    username = db.Column(db.String(128))
     description = db.Column(db.String(1024))
     user_image_url = db.Column(db.String(1024))
     date_published = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    twitter_id = db.Column(db.String(64), nullable=False, unique=True)
+    twitter_id = db.Column(db.String(128), nullable=False, unique=True)
+    profile_msg = db.Column(db.String(1024))
 
     questions = db.relationship(
         'Question',
         secondary=UserQuestion.__tablename__,
         back_populates='users',
     )
+    user_question = db.relationship('UserQuestion')
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -34,13 +39,12 @@ class Question(db.Model):
     recieve_id = db.Column(db.Integer, unique=True)
     body = db.Column(db.String(256))
     date_published = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    answer_body = db.Column(db.String(256))
-
     users = db.relationship(
         'User',
         secondary=UserQuestion.__tablename__,
         back_populates='questions',
     )
+    user_question = db.relationship('UserQuestion')
     def __repr__(self):
         return '<Question %r>' % self.body
 

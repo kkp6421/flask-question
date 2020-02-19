@@ -1,17 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
     <br/>
-    <h6>{{ profile_user.username }}&nbsp;さんに質問を送る</h6>
-    <div class="">
-        <form action="/send_question" method="post">
-            <div class="form-group">
+    <div class="row" style="background-color: white; padding-top: 20px; padding-bottom: 20px;">
+        <div class="col-1 col-md-1 col-lg-1">
+        </div>
+        <div class="col-10 col-md-10 col-lg-10">
+            <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width="70">
+            <div class="h4">{{ profile_user.username }}</div>
+            <div class="text-muted" style="font-size: 12px; margin-top: -8px;">{{ profile_user.screen_name }}</div>
+            <div>
+                {% if profile_user.profile_msg is not none %}
+                    {{ profile_user.profile_msg }}
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-1 col-md-1 col-lg-1"></div>
+        <br/>
+    </div>
+    <br/>
+    {% if current_user.id != profile_user.id %}
+        <div class="" style="background-color: white; padding-top: 20px;">
+            <h6>{{ profile_user.username }}&nbsp;さんに質問を送る</h6>
+            <form action="/send_question" method="post">
+                <div class="form-group">
                 <textarea class="form-control" name="body" rows="3" placeholder="質問を入力してください。"></textarea>
-            </div>
-            <div class="form-group">
-                <input type="hidden" name="recieve_user_id" value="{{ profile_user.id }}">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            </div>
-            <button type="submit" class="btn btn-info">質問する</button>
-        </form>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="recieve_user_id" value="{{ profile_user.id }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                </div>
+                <button type="submit" class="btn btn-info">質問する</button>
+            </form>
+        </div>
+    {% endif %}
+    <br/>
+    <div class="row">
+        <div class="col-md-3 col-3 col-lg-3"></div>
+        <div class="col-md-6 col-6 col-lg-6 btn">
+            <a href="/logout" class="btn btn-danger">ログアウト</a>
+        </div>
+        <div class="col-md-3 col-2 col-lg-3"></div>
+    </div>
+
+    <br/>
+    <div style="background-color: white; padding-top: 20px; padding-bottom: 20px;">
+
     </div>
 {% endblock %}
