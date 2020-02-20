@@ -77,7 +77,7 @@ def show_question(id):
 def show_user(screen_name):
     user = current_user
     if user.is_authenticated:
-        profile_user = User.query.filter_by(screen_name=screen_name).all()[0]
+        profile_user = User.query.filter_by(screen_name=screen_name).first()
         if profile_user is None:
             return render_template('error/404.html')
         else:

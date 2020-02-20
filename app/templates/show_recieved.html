@@ -24,7 +24,7 @@
       {% if questions_recieved_not_answered|length == 0 %}
         質問がありません。
       {% else %}
-        {% for question_recieved_not_answerd in questions_recieved_not_answered %}
+        {% for question_recieved_not_answered in questions_recieved_not_answered %}
           {{ question_recieved_not_answered }}
         {% endfor %}
       {% endif %}

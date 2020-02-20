@@ -9,7 +9,7 @@
 {% endblock %}
 {% block content %}
     <br/>
-    <div class="row" style="background-color: white; padding-top: 20px; padding-bottom: 20px;">
+    <div class="row rounded" style="background-color: white; padding-top: 20px; padding-bottom: 20px;">
         <div class="col-1 col-md-1 col-lg-1">
         </div>
         <div class="col-10 col-md-10 col-lg-10">
@@ -27,7 +27,12 @@
     </div>
     <br/>
     {% if current_user.id != profile_user.id %}
-        <div class="" style="background-color: white; padding: 30px;">
+        <style>
+            span.fa.fa-cog.mute-text{
+                color: #999999;
+            }
+    </style>
+        <div class="rounded" style="background-color: white; padding: 30px;">
             <h6>{{ profile_user.username }}&nbsp;さんに質問を送る</h6>
             <form action="/send_question" method="post">
                 <div class="form-group">

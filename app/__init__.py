@@ -14,7 +14,6 @@ def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-    app.secret_key = os.environ.get("SECRET_KEY")
     db.init_app(app)
     csrf.init_app(app)
     login_manager.init_app(app)
