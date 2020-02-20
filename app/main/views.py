@@ -74,19 +74,13 @@ def show_question(id):
 
 #userの詳細表示
 @main.route("/user/<screen_name>")
-def question(screen_name):
+def show_user(screen_name):
     user = current_user
     if user.is_authenticated:
         profile_user = User.query.filter_by(screen_name=screen_name).all()[0]
         if profile_user is None:
             return render_template('error/404.html')
         else:
-            questions_all = profile_user.questions
-            questions_ans_all = []
-            for q in questions_all:
-                if q.recieve_id == profile_user.id and q.answer_body is not None:
-                    questions_ans_all.append(q)
-
             return render_template('show_user.html', profile_user=profile_user)
     else:
         flash("ログインしてください", "danger")
@@ -107,7 +101,7 @@ def send_question():
             #リレーション開始
             user_question = UserQuestion()
             user_question.question = new_question
-            recieve_user.user_question.apend(user_question)
+            recieve_user.user_question.append(user_question)
             db.session.add(recieve_user)
             db.session.add(new_question)
             db.session.commit()

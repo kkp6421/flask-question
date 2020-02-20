@@ -1,13 +1,21 @@
 {% extends "base.html" %}
+{% block title %}知恵の木|設定{% endblock %}
+{% block head %}
+    <style>
+        span.fa.fa-cog.mute-text{
+            color: black;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <br/>
     <div class="row" style="background-color: white; padding-top: 20px; padding-bottom: 20px;">
         <div class="col-1 col-md-1 col-lg-1">
         </div>
         <div class="col-10 col-md-10 col-lg-10">
-            <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width="70">
+            <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width="50">
             <div class="h4">{{ profile_user.username }}</div>
-            <div class="text-muted" style="font-size: 12px; margin-top: -8px;">{{ profile_user.screen_name }}</div>
+            <div class="text-muted" style="font-size: 12px; margin-top: -8px;">@{{ profile_user.screen_name }}</div>
             <div>
                 {% if profile_user.profile_msg is not none %}
                     {{ profile_user.profile_msg }}
@@ -19,7 +27,7 @@
     </div>
     <br/>
     {% if current_user.id != profile_user.id %}
-        <div class="" style="background-color: white; padding-top: 20px;">
+        <div class="" style="background-color: white; padding: 30px;">
             <h6>{{ profile_user.username }}&nbsp;さんに質問を送る</h6>
             <form action="/send_question" method="post">
                 <div class="form-group">
@@ -43,7 +51,4 @@
     </div>
 
     <br/>
-    <div style="background-color: white; padding-top: 20px; padding-bottom: 20px;">
-
-    </div>
 {% endblock %}

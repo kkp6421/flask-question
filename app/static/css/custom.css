@@ -1,0 +1,26 @@
+body{
+    background-color: #F3F3F3;
+    font-family: Franklin Gothic Medium;
+}
+.nav-item:hover{
+    background-color: #f3f3f3;
+}
+.nav-pills .nav-item .nav-link:not(.active) {
+    color: #5bc0de;
+    background-color: white;
+}
+
+.nav-pills .nav-item .nav-link {
+    color: white;
+    background-color: #5bc0de;
+}
+
+nav .navbar-nav li a{
+    color: #5bc0de !important;
+}
+
+@media screen(min-width: 700px){
+    .container{
+        min-width: 700px;
+    }
+}

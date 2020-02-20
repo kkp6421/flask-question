@@ -3,23 +3,22 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
 import os
+from config import config
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 csrf = CSRFProtect()
 
 
-
-def create_app():
+def create_app(config_name):
     app = Flask(__name__)
-    base_dir = os.path.abspath(os.path.dirname(__file__))
+    app.config.from_object(config[config_name])
+    config[config_name].init_app(app)
     app.secret_key = os.environ.get("SECRET_KEY")
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or\
-                                            'sqlite:///'+os.path.join(base_dir, 'data.sqlite')
     db.init_app(app)
     csrf.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'index'
+    login_manager.login_view = 'main.index'
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

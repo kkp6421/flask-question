@@ -8,8 +8,8 @@ from . import auth
 
 service = OAuth1Service(
     name='twitter',
-    consumer_key=os.environ.get("consumer_development_key"),
-    consumer_secret=os.environ.get("consumer_development_secret"),
+    consumer_key=os.environ.get("consumer_key"),
+    consumer_secret=os.environ.get("consumer_secret"),
     request_token_url='https://api.twitter.com/oauth/request_token',
     authorize_url='https://api.twitter.com/oauth/authorize',
     access_token_url='https://api.twitter.com/oauth/access_token',
@@ -27,7 +27,7 @@ def oauth_authorize():
         return redirect(url_for('main.index'))
     else:
         request_token = service.get_request_token(
-            params={'oauth_callback': 'http://192.168.99.100:5000/oauth/twitter/callback?provider=twitter'}
+            params={'oauth_callback': 'https://kkp6421-flask-question.herokuapp.com/oauth/twitter/callback?provider=twitter'}
         )
         session['request_token'] = request_token
         return redirect(service.get_authorize_url(request_token[0]))

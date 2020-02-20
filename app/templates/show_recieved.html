@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {%block title %}知恵の木|届いた質問{% endblock %}
+{% block head %}
+  <style>
+    span.fa.fa-folder.mute-text{
+            color: black;
+        }
+  </style>
+{% endblock %}
 {% block content %}
 <br/>
 <h5>届いた質問</h5><br/>
@@ -13,7 +20,7 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
-      未回答一覧<br/><br/>
+      未回答一覧<span class="glyphicon glyphicon-star" aria-hidden="true"></span><br/><br/>
       {% if questions_recieved_not_answered|length == 0 %}
         質問がありません。
       {% else %}
