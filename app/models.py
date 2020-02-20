@@ -35,8 +35,8 @@ class User(UserMixin, db.Model):
 class Question(db.Model):
     __tablename__ = 'questions'
     id = db.Column(db.Integer, primary_key=True)
-    send_id = db.Column(db.Integer, unique=True)
-    recieve_id = db.Column(db.Integer, unique=True)
+    send_id = db.Column(db.Integer)
+    recieve_id = db.Column(db.Integer)
     body = db.Column(db.String(256))
     date_published = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     users = db.relationship(
