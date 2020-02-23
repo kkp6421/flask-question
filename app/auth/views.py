@@ -45,14 +45,15 @@ def oauth_callback():
     screen_name = str(profile.get('screen_name'))
     username = str(profile.get('name'))
     description = str(profile.get('description'))
-    profile_image_url = str(profile.get('profile_image_url'))
+    profile_image_url = str(profile.get('profile_image_url')).replace("normal", "bigger")
     user = db.session.query(User).filter(User.twitter_id == twitter_id).first()
     if user:
         user.twitter_id = twitter_id
         user.username = username
+        user.user_image_url = profile_image_url
     else:
         user = User(screen_name=screen_name, twitter_id=twitter_id, username=username, description=description, user_image_url=profile_image_url)
     db.session.add(user)
     db.session.commit()
     login_user(user, True)
-    return redirect(url_for('main.show_recieved'))
+    return redirect(url_for('main.index'))

@@ -37,29 +37,6 @@ def show_recieved():
 """自分宛以外の質問にも答えられるがそれは宛られたUserが答えてから可能となる
 未回答の質問は公開されないので"""
 
-#送った質問一覧表示
-@main.route("/send")
-def show_send():
-    user = current_user
-    if user.is_authenticated:
-        all_questions_send = Question.query.filter_by(send_id=user.id).all() #送った全ての質問
-        questions_send_answered = [] #答えられたして質問
-        questions_send_not_answered = [] #答えられてない質問
-        for q in all_questions_send:
-            for i in range(len(q.user_question)):
-                if q.user_question[i].answer_body is None:
-                    questions_send_not_answered.append(q)
-                elif q.user_question[i].answer_body is not None:
-                    questions_send_answered.append(q)
-                else:
-                    pass
-        return render_template('show_send.html',
-                               questions_send_answered=questions_send_answered,
-                               questions_send_not_answered=questions_send_not_answered)
-    else:
-        flash("ログインしてください。", "danger")
-        return redirect(url_for('main.index'))
-
 #質問の詳細表示
 @main.route("/question/<id>")
 def show_question(id):
@@ -81,7 +58,21 @@ def show_user(screen_name):
         if profile_user is None:
             return render_template('error/404.html')
         else:
-            return render_template('show_user.html', profile_user=profile_user)
+            all_questions_send = Question.query.filter_by(send_id=profile_user.id).all() #送った全ての質問
+            questions_send_answered = [] #答えられたして質問
+            questions_send_not_answered = [] #答えられてない質問
+            for q in all_questions_send:
+                for i in range(len(q.user_question)):
+                    if q.user_question[i].answer_body is None:
+                        questions_send_not_answered.append(q)
+                    elif q.user_question[i].answer_body is not None:
+                        questions_send_answered.append(q)
+                    else:
+                        pass
+            return render_template('show_user.html',
+                                   profile_user=profile_user,
+                                   questions_send_not_answered=questions_send_not_answered,
+                                   questions_send_answered=questions_send_answered)
     else:
         flash("ログインしてください", "danger")
         return redirect(url_for('main.index'))
@@ -105,7 +96,7 @@ def send_question():
             db.session.add(recieve_user)
             db.session.add(new_question)
             db.session.commit()
-            return redirect(url_for('main.show_send'))
+            return redirect(url_for("main.show_user", screen_name=send_user.screen_name))
         else:
             pass
     else:

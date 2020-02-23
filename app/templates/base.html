@@ -1,83 +1,66 @@
-<!DOCTYPE html>
-<html>
+<!Doctype html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 
-    <style>
-        body{
-            background-color: #F3F3F3;
-            font-family: Franklin Gothic Medium;
-        }
-        .footer-item:hover{
-            background-color: #f3f3f3;
-        }
-        .nav-item:hover{
-            background-color: #f3f3f3;
-        }
-        .nav-pills .nav-item .nav-link:not(.active) {
-            color: #5bc0de;
-            background-color: white;
-        }
-
-        .nav-pills .nav-item .nav-link {
-            color: white;
-            background-color: #5bc0de;
-        }
-
-        nav .navbar-nav li a{
-            color: #5bc0de !important;
-        }
-
-        @media screen(min-width: 700px){
-            .container{
-                min-width: 700px;
-            }
-        }
-
-        .mute-text{
-            color: #999999;
-        }
-
-    </style>
-    {% block head %}
-    {% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <title>Starter Template for Bootstrap</title>
 </head>
-<body>
-    <nav class="navbar navbar-white bg-white">
-        <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='tree.png') }}" width="60" style="margin: -15px; padding-left: 10px;"></a>
-        <div class="border rounded border-info">
-            {% if current_user.is_authenticated != True %}
-                <span style="font-size: 15px;" class="text-info">ログインして下さい</span>
-            {% else %}
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dropdownContent" aria-controls="dropdownContent" aria-expanded="false" aria-label="Toggle navigation">
-                <img src="{{ current_user.user_image_url }}" width="28" class="rounded-circle">
-                <span style="font-size: 15px;" class="text-info">Account</span><br/>
-            </button>
-            {% endif %}
-        </div>
-        {% if current_user.is_authenticated == True %}
-            <div class="collapse navbar-collapse" id="dropdownContent">
-                <hr style="background-color: #f0f0f0; position: relative; left: -3vh; top: -1.2vh; width: 110%;">
-                <ul class="navbar-nav mr-auto nav-right" style="margin-top: -15px;">
-                    <li class="nav-item" style="margin: -1px; padding-left: 5px;">
-                        <a class="nav-link" href="/user/{{ current_user.screen_name }}" style="font-size: 15px;">マイページ</a>
-                    </li>
-                    <li class="nav-item" style="margin: -1px; padding-left: 5px;">
-                        <a class="nav-link" href="/recieved" style="font-size: 15px;">届いた質問</a>
-                    </li>
-                    <li class="nav-item" style="margin: -1px; padding-left: 5px;">
-                        <a class="nav-link" href="/send" style="font-size: 15px;">送った質問</a>
-                    </li>
-                </ul>
-            </div>
+
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-md navbar-white bg-white fixed-top">
+        {% if current_user.is_authenticated %}
+            <a href="/">
+                <img src="{{ current_user.user_image_url }}" class="rounded-circle" width="40px">
+            </a>
+        {% else %}
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='tree.png') }}" width="40px" class="rounded-circle">
+            </a>
         {% endif %}
+        <button class="navbar-toggler border border-info" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation" style="font-size: 1.6em;">
+            <span class="fa fa-bars text-info"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><span class="fa fa-tree"></span>&nbsp;Home</a>
+                </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="https://twitter.com/{{ current_user.screen_name }}"><span class="fa fa-twitter"></span>&nbsp;Go to Twitter</a>
+                </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="/recieved"><i class="fa fa-leaf"></i>&nbsp;受け取った質問</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/{{ current_user.screen_name }}"><i class="fa fa-cog"></i>&nbsp;設定</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %}
         <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
@@ -90,44 +73,13 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3 col-lg-3">
-            </div>
-            <div class="col-12 col-md-6 col-lg-6">
-                {% block content %}
-                {% endblock %}
-            </div>
-            <div class="col-md-3 col-lg-3"></div>
-        </div>
-    </div>
-    <footer class="footer bg-white" style="position: absolute; bottom: 0%; width: 100%; height: 50px;">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-md-3 col-lg-3"></div>
-                <div class="col-12 col-md-6 col-lg-6">
-                    <div class="row">
-                        <a class="col-3 col-md-3 col-lg-3 footer-item" href="/">
-                            <span class="fa fa-home mute-text" aria-hidden="true" style="font-size: 28px;"></span><br/>
-                            <span class="text-center text-info" style="font-size: 8px; position:relative; bottom: 8px;">タイムライン</span>
-                        </a>
-                        <a class="col-3 col-md-3 col-lg-3 footer-item" href="/recieved">
-                            <span class="fa fa-folder mute-text" aria-hidden="true" style="font-size: 28px;"></span><br/>
-                            <span class="text-center text-info" style="font-size: 8px; position:relative; bottom: 8px;">受け取った質問</span>
-                        </a>
-                        <a class="col-3 col-md-3 col-lg-3 footer-item" href="/send">
-                            <span class="fa fa-envelope mute-text" aria-hidden="true" style="font-size: 28px;"></span><br/>
-                            <span class="text-center text-info" style="font-size: 8px; position:relative; bottom: 8px;">送った質問</span>
-                        </a>
-                        <a class="col-3 col-md-3 col-lg-3 footer-item" href="/user/{{current_user.screen_name}}">
-                            <span class="fa fa-cog mute-text" aria-hidden="true" style="font-size: 28px;"></span><br/>
-                            <span class="text-center text-info" style="font-size: 8px; position:relative; bottom: 8px;">設定</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3 col-lg-3"></div>
-            </div>
-        </div>
-    </footer>
+    <main role="main" class="container">
+        {% block content %}{% endblock %}
+    </main><!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
 </body>
+
 </html>

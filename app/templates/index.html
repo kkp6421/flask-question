@@ -1,48 +1,11 @@
 {% extends "base.html" %}
 {% block title %}知恵の木{% endblock %}
 {% block content %}
-    <br/>
-{% if current_user.is_authenticated!=True %}
-    <style>
-      span.fa.fa-home.mute-text{
-        color: #999999;
-      }
-    </style>
-    <h6>知恵の木はTwitterと連携した質問サイトです。</h6>
-    <div class="row">
-        <div class="col-md-3 col-2 col-lg-3">&nbsp;</div>
-        <div class="col-md-6 col-8 col-lg-6">
-            <div class="rounded-circle" style="background-color: white;">
-                <img src="./static/tree.png" width="150" style="margin: 0 auto; display: block">
-            </div>
-        </div>
-        <div class="col-md-3 col-xs-2 col-lg-3">&nbsp;</div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-2 col-md-3 col-lg-4"></div>
-        <div class="col-md-6 col-8 col-lg-4 btn">
-            <a href="/oauth/twitter" class="btn btn-info">
-                <span class="fa fa-twitter">Twitterと連携</span>
-            </a>
-        </div>
-        <div class="col-2 col-md-3 col-lg-4"></div>
-    </div>
+<div class="starter-template">
+    {% if current_user.is_authenticated %}
+    <h1>Welcome</h1>
     {% else %}
-        {% block head %}
-            <style>
-                span.fa.fa-home.mute-text{
-                    color: black;
-                }
-            </style>
-        {% endblock %}
-    <div class="row">
-        <div class="col-md-3 col-3 col-lg-3"></div>
-        <div class="col-md-6 col-6 col-lg-6 btn">
-            <a href="/logout" class="btn btn-danger">ログアウト</a>
-        </div>
-        <div class="col-md-3 col-2 col-lg-3"></div>
-    </div>
-    <a href="/user/{{current_user.screen_name}}">プロフィール</a>
+    <a class="btn btn-info" href="/oauth/twitter">Twitterと連携</a>
     {% endif %}
+</div>    
 {% endblock %}

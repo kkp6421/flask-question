@@ -1,8 +1,6 @@
 from datetime import datetime
 from flask_login import UserMixin
-from sqlalchemy_utils import UUIDType
 from app import db, login_manager
-import uuid
 
 class UserQuestion(db.Model):
     __tablename__ = 'users_questions'
@@ -19,7 +17,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(128))
     description = db.Column(db.String(1024))
     user_image_url = db.Column(db.String(1024))
-    date_published = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_published = db.Column(db.DateTime, nullable=False, default=datetime.now())
     twitter_id = db.Column(db.String(128), nullable=False, unique=True)
     profile_msg = db.Column(db.String(1024))
 
@@ -38,7 +36,7 @@ class Question(db.Model):
     send_id = db.Column(db.Integer)
     recieve_id = db.Column(db.Integer)
     body = db.Column(db.String(256))
-    date_published = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_published = db.Column(db.DateTime, nullable=False, default=datetime.now())
     users = db.relationship(
         'User',
         secondary=UserQuestion.__tablename__,

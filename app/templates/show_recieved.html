@@ -2,15 +2,15 @@
 {%block title %}知恵の木|届いた質問{% endblock %}
 {% block head %}
   <style>
-    span.fa.fa-folder.mute-text{
+    span.fa.fa-pagelines.mute-text{
             color: black;
         }
   </style>
 {% endblock %}
 {% block content %}
 <br/>
-<h5>届いた質問</h5><br/>
-<ul class="nav nav-tabs row nav-pills" role="tablist">
+<h5>受け取った質問</h5><br/>
+<ul class="nav row nav-pills container" role="tablist" style="margin: 15px;">
   <li class="nav-item">
     <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">未回答</a>
   </li>
@@ -18,29 +18,61 @@
     <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">回答済み</a>
   </li>
 </ul>
-<div class="tab-content">
-    <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab">
-      未回答一覧<span class="glyphicon glyphicon-star" aria-hidden="true"></span><br/><br/>
+<div class="tab-content row" style="margin: 15px; position: relative; top: -15px;">
+    <div class="tab-pane fade show active container" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="">
+      <br/>未回答一覧<span class="glyphicon glyphicon-star" aria-hidden="true"></span><br/><br/>
       {% if questions_recieved_not_answered|length == 0 %}
         質問がありません。
       {% else %}
-        {% for question_recieved_not_answered in questions_recieved_not_answered %}
-          {{ question_recieved_not_answered }}
-        {% endfor %}
+        <div class="row">
+          {% for question_recieved_not_answered in questions_recieved_not_answered %}
+            <div class="col-12 col-md-4 col-lg-4">
+              <a href="#">
+                <div class="card mb-4 box-shadow" style="width: 100%; height: 240px;">
+                  <div class="card-img-top bg-success" style="width: 100%; height: 180px;">
+                    <div class="bg-white rounded" style="width: 96%; height: 92%; margin: 0 auto; margin-top: 6px;">
+                      <h6 class="text-dark">{{ question_recieved_not_answered.body }}</h6>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h6 class="text-muted">{{ question_recieved_not_answered.date_published.strftime('%Y-%m-%d') }}</h6>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
       {% endif %}
     </div>
-    <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab">
-      回答済み一覧<br/><br/>
+    <div class="tab-pane fade container" id="item2" role="tabpanel" aria-labelledby="item2-tab" style="margin: 15px;">
+      回答済み一覧<br/>
       {% if questions_recieved_answered|length == 0 %}
         質問がありません。
       {% else %}
-        {% set ns = namespace(cnt = 0) %}
-        {% for question_recieved_answered in questions_recieved_answered %}
-          {{ question_recieved_answered }}
-        {% endfor %}
-        {% if ns.cnt == 0 %}
-          <br/>質問がありません。
-        {% endif %}
+        <div class="row">
+          {% for question_recieved_answered in questions_recieved_answered %}
+            <div class="col-12 col-md-4 col-lg-4">
+              <a href="#">
+                <div class="card mb-4 box-shadow" style="width: 100%; height: 240px;">
+                  <div class="card-img-top bg-success" style="width: 100%; height: 180px;">
+                    <div class="bg-white rounded" style="width: 96%; height: 92%; margin: 0 auto; margin-top: 6px;">
+                      <h6 class="text-dark">{{ question_recieved_answered.body }}</h6>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <h6 class="text-muted">{{ question_recieved_answered.date_published.strftime('%Y-%m-%d') }}</h6>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
       {% endif %}
     </div>
 </div>
