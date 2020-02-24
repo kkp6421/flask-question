@@ -42,19 +42,25 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" href="/"><span class="fa fa-tree"></span>&nbsp;Home</a>
+                    <a class="nav-link" href="/"><span class="fa fa-tree"></span>&nbsp;ホーム</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><span class="fa fa-book"></span>&nbsp;使用方法について</a>
                 </li>
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="https://twitter.com/{{ current_user.screen_name }}"><span class="fa fa-twitter"></span>&nbsp;Go to Twitter</a>
                 </li>
-                {% endif %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="/recieved"><i class="fa fa-leaf"></i>&nbsp;受け取った質問</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/send"><i class="fa fa-comments"></i>&nbsp;送った質問</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/{{ current_user.screen_name }}"><i class="fa fa-cog"></i>&nbsp;設定</a>
+                    <a class="nav-link" href="/user/{{ current_user.screen_name }}"><i class="fa fa-comments"></i>&nbsp;受取った質問</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-cog"></i>&nbsp;設定</a>
+                </li>
+                {% endif %}
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
