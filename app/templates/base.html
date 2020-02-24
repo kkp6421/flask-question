@@ -27,9 +27,14 @@
 
     <nav class="navbar navbar-expand-md navbar-white bg-white fixed-top">
         {% if current_user.is_authenticated %}
-            <a href="/">
+            <a href="/user/{{ current_user.screen_name }}">
                 <img src="{{ current_user.user_image_url }}" class="rounded-circle" width="40px">
             </a>
+            <div class="d-lg-none d-md-none d-block" style="margin: 0 auto;">
+                <a href="/">
+                    <img src="{{ url_for('static', filename='tree.png') }}" width="40">
+                </a>
+            </div>
         {% else %}
             <a class="navbar-brand" href="/">
                 <img src="{{ url_for('static', filename='tree.png') }}" width="40px" class="rounded-circle">
@@ -55,7 +60,7 @@
                     <a class="nav-link" href="/send"><i class="fa fa-comments"></i>&nbsp;送った質問</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/{{ current_user.screen_name }}"><i class="fa fa-comments"></i>&nbsp;受取った質問</a>
+                    <a class="nav-link" href="/user/{{ current_user.screen_name }}"><i class="fa fa-user-circle"></i>&nbsp;プロフィール</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-cog"></i>&nbsp;設定</a>

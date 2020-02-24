@@ -9,7 +9,7 @@ def index():
     return render_template('index.html')
 
 
-#受け取った質問一覧表示
+#送った質問一覧表示
 @main.route("/send")
 def show_send():
     user = current_user
@@ -18,12 +18,15 @@ def show_send():
         questions_send_answered = [] #答えられたして質問
         questions_send_not_answered = [] #答えられてない質問
         for q in all_questions_send:
-            if q.user_question[0].answer_body is None:
-                questions_send_not_answered.append(q)
-            elif q.user_question[0].answer_body is not None:
-                questions_send_answered.append(q)
-            else:
-                pass
+            for i in range(len(q.user_question)):
+                if q.user_question[i].answer_body is None:
+                    questions_send_not_answered.append(q)
+                    continue
+                elif q.user_question[i].answer_body is not None:
+                    questions_send_answered.append(q)
+                    continue
+                else:
+                    pass
         return render_template('show_send.html',
                                    profile_user=current_user,
                                    questions_send_not_answered=questions_send_not_answered,

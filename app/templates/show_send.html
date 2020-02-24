@@ -8,23 +8,27 @@
   </style>
 {% endblock %}
 {% block content %}
-<ul class="nav row nav-pills container" role="tablist" style="margin: 15px;">
-  <li class="nav-item">
-    <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true">未回答</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false">回答済み</a>
-  </li>
-</ul>
-<div class="tab-content container" style="margin: 15px; position: relative; top: -15px; width: 95%;">
+<br/>
+<div class="container">
+    <ul class="nav row nav-pills" role="tablist">
+        <li class="nav-item col-6 col-lg-2 col-md-2">
+            <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" style="font-size: 0.7rem; margin: -15px; text-align: center;">未回答の送った質問</a>
+        </li>
+        <li class="nav-item col-6 col-lg-2 col-md-2">
+            <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false" style="font-size: 0.7rem; margin: -15px; text-align: center;">回答済みの送った質問</a>
+        </li>
+    </ul>
+</div>
+<br/><br/>
+<div class="tab-content container" style="">
     {% if profile_user.id == current_user.id %}
-        <div class="tab-pane fade show active tab-pane fade show active container row" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="padding: 10px;">
+        <div class="tab-pane fade show active tab-pane fade show active row" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="margin: 0 auto;">
             {% if questions_send_not_answered|length == 0 %}
                 質問がありません。
             {% else %}
                 <div class="row">
                     {% for question_send_not_answered in questions_send_not_answered %}
-                    <div class="col-12 col-md-4 col-lg-4" style="position: relative; left: 12px;">
+                    <div class="col-12 col-md-4 col-lg-4" style="">
                         <a href="#">
                             <div class="card mb-4 box-shadow" style="width: 100%; height: 220px;">
                                 <div style="width: 92%; margin: 0 auto;">
@@ -48,37 +52,37 @@
             {% endif %}
         </div>
     {% else %}
-        <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="margin: 15px;">
+        <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="">
             本人しか閲覧できません。
         </div>
     {% endif %}
-    <div class="tab-pane fade row" id="item2" role="tabpanel" aria-labelledby="item2-tab" style="padding: 25px;">
+    <div class="tab-pane fade row" id="item2" role="tabpanel" aria-labelledby="item2-tab" style="margin: 0 auto;">
         {% if questions_send_answered|length == 0 %}
             質問がありません。
         {% else %}
-            <div class="row">
-                    {% for question_send_answered in questions_send_answered %}
-                    <div class="col-12 col-md-4 col-lg-4">
-                        <a href="#">
-                            <div class="card mb-4 box-shadow" style="width: 100%; height: 220px;">
-                                <div style="width: 92%; margin: 0 auto;">
-                                    <small class="text-muted">{{ question_send_answered.date_published.strftime('%Y-%m-%d') }}</small>
-                                </div>
-                                <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
-                                    <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
-                                        <p class="text-dark">{{ question_send_answered.body }}</p>
-                                        <div class="" style="position: relative; left: 86%; top: 70px; width: 20px">
-                                            <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <a class="text-success" href="#"><span class="fa fa-comments"></span>&nbsp;回答を見る</a>
+        <div class="row">
+            {% for question_send_answered in questions_send_answered %}
+            <div class="col-12 col-md-4 col-lg-4">
+                <a href="#">
+                    <div class="card mb-4 box-shadow" style="width: 100%; height: 220px;">
+                        <div style="width: 92%; margin: 0 auto;">
+                            <small class="text-muted">{{ question_send_answered.date_published.strftime('%Y-%m-%d') }}</small>
+                        </div>
+                        <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
+                            <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
+                                <p class="text-dark">{{ question_send_answered.body }}</p>
+                                <div class="" style="position: relative; left: 86%; top: 70px; width: 20px">
+                                    <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
                                 </div>
                             </div>
-                        </a>
+                            <br/>
+                            <a class="text-success" href="#"><span class="fa fa-comments"></span>&nbsp;回答を見る</a>
+                        </div>
                     </div>
-                    {% endfor %}
-                </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
         {% endif %}
     </div>
 </div>
