@@ -1,4 +1,4 @@
 .env
-data.sqlite
-data-dev.sqlite
-data-test.sqlite
+
+# sqlite
+*.sqlite
