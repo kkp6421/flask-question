@@ -27,10 +27,13 @@ def show_send():
                     break
                 else:
                     pass
+        questions_send_answered = list(reversed(questions_send_answered))
+        questions_send_not_answered = list(reversed(questions_send_not_answered))
         return render_template('show_send.html',
                                    profile_user=current_user,
                                    questions_send_not_answered=questions_send_not_answered,
-                                   questions_send_answered=questions_send_answered)
+                                   questions_send_answered=questions_send_answered
+                               )
     else:
         flash("ログインしてください。", "warning")
         return redirect(url_for('main.index'))
@@ -50,10 +53,13 @@ def show_recieved():
                     questions_recieved_answered.append(q)
                 else:
                     pass
+        questions_recieved_answered = list(reversed(questions_recieved_answered))
+        questions_recieved_not_answered = list(reversed(questions_recieved_not_answered))
         return render_template('show_recieve.html',
                                    user=current_user,
                                    questions_recieved_not_answered=questions_recieved_not_answered,
-                                   questions_recieved_answered=questions_recieved_answered)
+                                   questions_recieved_answered=questions_recieved_answered
+                                )
     else:
         flash("ログインしてください。", "warning")
         return redirect(url_for('main.index'))
@@ -74,10 +80,13 @@ def show_question(question_id):
                 user = User.query.filter_by(id=user_question.user_id).first()
                 users_answered.append(user)
                 users_answered_body.append(user_question.answer_body)
+        users_answered_body = list(reversed(users_answered_body))
+        users_answered = list(reversed(users_answered))
         return render_template('show_question.html',
                                question=question,
                                users_answered_body=users_answered_body,
-                               users_answered=users_answered)
+                               users_answered=users_answered
+                               )
     else:
         flash("ログインしてください", "warning")
         return redirect(url_for('main.index'))
@@ -105,6 +114,8 @@ def show_user(screen_name):
                         break
                     else:
                         pass
+            questions_answers = list(reversed(questions_answers))
+            questions_recieved_answered = list(reversed(questions_recieved_answered))
             return render_template('show_user.html',
                                     profile_user=profile_user,
                                     questions_recieved_answered=questions_recieved_answered,
