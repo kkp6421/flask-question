@@ -21,10 +21,10 @@ def show_send():
             for i in range(len(q.user_question)):
                 if q.user_question[i].answer_body is None:
                     questions_send_not_answered.append(q)
-                    continue
+                    break
                 elif q.user_question[i].answer_body is not None:
                     questions_send_answered.append(q)
-                    continue
+                    break
                 else:
                     pass
         return render_template('show_send.html',
@@ -32,7 +32,30 @@ def show_send():
                                    questions_send_not_answered=questions_send_not_answered,
                                    questions_send_answered=questions_send_answered)
     else:
-        flash("ログインしてください。", "danger")
+        flash("ログインしてください。", "warning")
+        return redirect(url_for('main.index'))
+
+@main.route("/recieved")
+def show_recieved():
+    user = current_user
+    if user.is_authenticated:
+        all_questions_recieved = Question.query.filter_by(recieve_id=user.id).all() #受け取った全ての質問
+        questions_recieved_answered = [] #答えられたして質問
+        questions_recieved_not_answered = [] #答えられてない質問
+        for q in all_questions_recieved:
+            for i in range(len(q.user_question)):
+                if q.user_question[i].answer_body is None and q.user_question[i].user_id == user.id:
+                    questions_recieved_not_answered.append(q)
+                elif q.user_question[i].answer_body is not None and q.user_question[i].user_id == user.id:
+                    questions_recieved_answered.append(q)
+                else:
+                    pass
+        return render_template('show_recieve.html',
+                                   user=current_user,
+                                   questions_recieved_not_answered=questions_recieved_not_answered,
+                                   questions_recieved_answered=questions_recieved_answered)
+    else:
+        flash("ログインしてください。", "warning")
         return redirect(url_for('main.index'))
 
 """自分宛以外の質問にも答えられるがそれは宛られたUserが答えてから可能となる
@@ -45,7 +68,7 @@ def show_question(question_id):
     if user.is_authenticated:
         users_answered = []
         users_answered_body = []
-        question = Question.filter_by(id=int(question_id)).first()
+        question = Question.query.filter_by(id=int(question_id)).first()
         for user_question in question.user_question:
             if user_question.answer_body is not None:
                 user = User.query.filter_by(id=user_question.user_id).first()
@@ -56,7 +79,7 @@ def show_question(question_id):
                                users_answered_body=users_answered_body,
                                users_answered=users_answered)
     else:
-        flash("ログインしてください", "danger")
+        flash("ログインしてください", "warning")
         return redirect(url_for('main.index'))
 
 
@@ -70,28 +93,25 @@ def show_user(screen_name):
         if profile_user is None:
             return render_template('error/404.html')
         else:
-            all_questions_recieved = Question.query.filter_by(recieve_id=profile_user.id).all() #受け取った全ての質問
-            questions_recieved_answered = [] #答えた質問
-            questions_recieved_not_answered = [] #答えてない質問
+            all_questions = Question.query.all() #全ての質問
+            questions_recieved_answered = [] #自分宛じゃない質問も含めた答えた質問
+
             questions_answers = []
-            for q in all_questions_recieved:
+            for q in all_questions:
                 for i in range(len(q.user_question)):
-                    if q.user_question[i].answer_body is None and q.user_question[i].user_id == profile_user.id:
-                        questions_recieved_not_answered.append(q)
-                        pass
-                    elif q.user_question[i].answer_body is not None and q.user_question[i].user_id == profile_user.id:
-                        questions_recieved_answered.append(q)
+                    if q.user_question[i].answer_body is not None and q.user_question[i].user_id == profile_user.id:
                         questions_answers.append(q.user_question[i].answer_body)
+                        questions_recieved_answered.append(q)
+                        break
                     else:
                         pass
             return render_template('show_user.html',
                                     profile_user=profile_user,
                                     questions_recieved_answered=questions_recieved_answered,
-                                    questions_recieved_not_answered=questions_recieved_not_answered,
                                     questions_answers=questions_answers
                                     )
     else:
-        flash("ログインしてください", "danger")
+        flash("ログインしてください", "warning")
         return redirect(url_for('main.index'))
 
 #質問を送る処理
@@ -117,7 +137,7 @@ def send_question():
         else:
             pass
     else:
-        flash("ログインしてください", "danger")
+        flash("ログインしてください", "warning")
         return redirect(url_for('main.index'))
 
 @main.route("/answer_question", methods=['POST'])
@@ -135,14 +155,17 @@ def answer_question():
                     u.user_question.append(user_question)
                     db.session.add(u)
                     db.session.commit()
+
             for i in range(len(u.user_question)):
                 if u.user_question[i].question_id == q.id and u.user_question[i].answer_body is None:
                     u.user_question[i].answer_body = request.form['answer_body']
                     db.session.add(u)
                     db.session.commit()
-                    break
-        return redirect(url_for('main.show_user', screen_name=user.screen_name))
+                    return redirect(url_for('main.show_user', screen_name=user.screen_name))
+            flash("申し訳ありません。この質問は回答済みです。", "warning")
+            return redirect(url_for("main.show_question", question_id=q.id))
+
     else:
-        flash("ログインしてください", "danger")
+        flash("ログインしてください", "warning")
         return redirect(url_for('main.index'))
 

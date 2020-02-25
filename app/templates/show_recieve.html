@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{%block title %}知恵の木|届いた質問{% endblock %}
+{% block head %}
+  <style>
+    span.fa.fa-pagelines.mute-text{
+            color: black;
+        }
+  </style>
+{% endblock %}
+{% block page_title %}
+<div style="font-size: 1.0rem;text-align: center;">届いた質問</div>
+{% endblock %}
+{% block content %}
+<br/>
+<div class="container">
+    <div class="container" style="margin: 0 auto;">
+        <ul class="nav row nav-pills" role="tablist">
+            <li class="nav-item col-6 col-lg-2 col-md-2">
+                <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" style="font-size: 1.1rem; margin: -15px; text-align: center;">未回答</a>
+            </li>
+            <li class="nav-item col-6 col-lg-2 col-md-2">
+                <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false" style="font-size: 1.1rem; margin: -15px; text-align: center;">回答済み</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<br/><br/>
+<div class="tab-content container" style="">
+    {% if user.id == current_user.id %}
+        <div class="tab-pane fade show active tab-pane fade show active row" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="margin: 0 auto;">
+            {% if questions_recieved_not_answered|length == 0 %}
+                質問がありません。
+            {% else %}
+
+                <div class="row">
+                    {% for question_recieved_not_answered in questions_recieved_not_answered %}
+                    <div class="col-12 col-md-4 col-lg-4" style="">
+                        <div>
+                            <div class="card mb-4 box-shadow" style="width: 100%; height: 240px;">
+                                <div style="width: 92%; margin: 0 auto;">
+                                    <small class="text-muted">質問日{{ question_recieved_not_answered.date_published.strftime('%Y-%m-%d') }}</small>
+                                </div>
+                                <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
+                                    <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
+                                        <p class="text-dark">{{ question_recieved_not_answered.body }}</p>
+                                        <div class="" style="position: absolute; left: 86%; bottom: 0%;">
+                                            <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div style="text-align: center;">
+                                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modal_{{loop.index}}" style="font-size: 0.9rem;">
+                                            <span class="fa fa-comment"></span>&nbsp;この質問に回答する。
+                                        </button>
+                                    </div>
+                                    <div class="modal fade" id="modal_{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h6 class="text-dark">{{ question_recieved_not_answered.body }}&nbsp;に回答する</h6>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="/answer_question" method="post">
+                                                        <div class="form-group">
+                                                            <textarea class="form-control border border-info rounded" name="answer_body" rows="3" placeholder="回答を入力してください。"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="hidden" name="answer_user_id" value="{{ current_user.id }}">
+                                                            <input type="hidden" name="question_id" value="{{ question_recieved_not_answered.id }}">
+                                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-outline-success">回答する</button>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="tab-pane fade show active" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="">
+            本人しか閲覧できません。
+        </div>
+    {% endif %}
+    <div class="tab-pane fade row" id="item2" role="tabpanel" aria-labelledby="item2-tab" style="margin: 0 auto;">
+        {% if questions_recieved_answered|length == 0 %}
+            質問がありません。
+        {% else %}
+        <div class="row">
+            {% for question_recieved_answered in questions_recieved_answered %}
+            <div class="col-12 col-md-4 col-lg-4">
+                <div>
+                    <div class="card mb-4 box-shadow" style="width: 100%; height: 220px;">
+                        <div style="width: 92%; margin: 0 auto;">
+                            <small class="text-muted">質問日{{ question_recieved_answered.date_published.strftime('%Y-%m-%d') }}</small>
+                        </div>
+                        <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
+                            <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
+                                <p class="text-dark">{{ question_recieved_answered.body }}</p>
+                                <div class="" style="position: absolute; left: 86%; bottom: 0%;">
+                                    <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
+                                </div>
+                            </div>
+                            <br/>
+                            <a class="text-success" href="/question/{{question_recieved_answered.id}}" style="font-size: 1.0rem;"><span class="fa fa-comments"></span>&nbsp;回答を見る</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

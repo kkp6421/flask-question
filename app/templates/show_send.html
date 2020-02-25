@@ -7,17 +7,22 @@
         }
   </style>
 {% endblock %}
+{% block page_title %}
+<div style="font-size: 1.0rem;text-align: center;">送った質問</div>
+{% endblock %}
 {% block content %}
 <br/>
 <div class="container">
-    <ul class="nav row nav-pills" role="tablist">
-        <li class="nav-item col-6 col-lg-2 col-md-2">
-            <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" style="font-size: 0.7rem; margin: -15px; text-align: center;">未回答の送った質問</a>
-        </li>
-        <li class="nav-item col-6 col-lg-2 col-md-2">
-            <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false" style="font-size: 0.7rem; margin: -15px; text-align: center;">回答済みの送った質問</a>
-        </li>
-    </ul>
+    <div class="container" style="margin: 0 auto;">
+        <ul class="nav row nav-pills" role="tablist">
+            <li class="nav-item col-6 col-lg-2 col-md-2">
+                <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="true" style="font-size: 1.1rem; margin: -15px; text-align: center;">未回答</a>
+            </li>
+            <li class="nav-item col-6 col-lg-2 col-md-2">
+                <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="false" style="font-size: 1.1rem; margin: -15px; text-align: center;">回答済み</a>
+            </li>
+        </ul>
+    </div>
 </div>
 <br/><br/>
 <div class="tab-content container" style="">
@@ -29,23 +34,23 @@
                 <div class="row">
                     {% for question_send_not_answered in questions_send_not_answered %}
                     <div class="col-12 col-md-4 col-lg-4" style="">
-                        <a href="#">
+                        <div>
                             <div class="card mb-4 box-shadow" style="width: 100%; height: 220px;">
                                 <div style="width: 92%; margin: 0 auto;">
-                                    <small class="text-muted">{{ question_send_not_answered.date_published.strftime('%Y-%m-%d') }}</small>
+                                    <small class="text-muted">質問日{{ question_send_not_answered.date_published.strftime('%Y-%m-%d') }}</small>
                                 </div>
                                 <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
                                     <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
                                         <p class="text-dark">{{ question_send_not_answered.body }}</p>
-                                        <div class="" style="position: relative; left: 86%; top: 70px; width: 20px">
+                                        <div class="" style="position: absolute; left: 86%; bottom: 0%;">
                                             <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
                                         </div>
                                     </div>
                                     <br/>
-                                    <div class="text-warning"><span class="fa fa-ban"></span>&nbsp;この質問には答えられません。</div>
+                                    <div class="text-warning" style="font-size: 0.8rem;"><span class="fa fa-ban"></span>&nbsp;この質問にはまだ答えられません。</div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -63,23 +68,24 @@
         <div class="row">
             {% for question_send_answered in questions_send_answered %}
             <div class="col-12 col-md-4 col-lg-4">
-                <a href="#">
+                <div>
                     <div class="card mb-4 box-shadow" style="width: 100%; height: 220px;">
                         <div style="width: 92%; margin: 0 auto;">
-                            <small class="text-muted">{{ question_send_answered.date_published.strftime('%Y-%m-%d') }}</small>
+                            <small class="text-muted">質問日{{ question_send_answered.date_published.strftime('%Y-%m-%d') }}</small>
                         </div>
                         <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
                             <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
                                 <p class="text-dark">{{ question_send_answered.body }}</p>
-                                <div class="" style="position: relative; left: 86%; top: 70px; width: 20px">
+                                <div class="" style="position: absolute; left: 86%; bottom: 0%;">
                                     <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
                                 </div>
+                            </div><br/>
+                            <div class="container">
+                                <a class="text-success" href="/question/{{question_send_answered.id}}" style="font-size: 1.0rem;"><span class="fa fa-comments"></span>&nbsp;回答を見る</a>
                             </div>
-                            <br/>
-                            <a class="text-success" href="#"><span class="fa fa-comments"></span>&nbsp;回答を見る</a>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
             {% endfor %}
         </div>

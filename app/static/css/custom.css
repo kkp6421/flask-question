@@ -1,5 +1,6 @@
 body {
   padding-top: 5rem;
+  font-family: 'Franklin Gothic Medium';
 }
 .starter-template {
   padding: 3rem 1.5rem;
@@ -63,4 +64,10 @@ footer p {
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
 a, a:visited, a:focus, a:hover {
     text-decoration: none;
+}
+.over-text {
+  white-space:nowrap;
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }

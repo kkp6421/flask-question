@@ -7,6 +7,14 @@
         }
     </style>
 {% endblock %}
+{% block page_title %}
+<div style="">
+    <div class="over-text">
+        <div style="text-align: center;">{{ profile_user.username }}</div>
+    </div>
+</div>
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-md-3 col-3 col-lg-3"></div>
@@ -16,12 +24,12 @@
         <div class="col-md-3 col-2 col-lg-3"></div>
     </div>
     <br/><br/>
-    <div class="row rounded" style="background-color: white; padding-top: 20px; padding-bottom: 20px;">
-        <div class="col-1 col-md-1 col-lg-1">
+    <div class="row">
+        <div class="col-1 col-md-4 col-lg-4">
         </div>
-        <div class="col-10 col-md-10 col-lg-10">
+        <div class="col-10 col-md-4 col-lg-4 box-shadow bg-white rounded" style="padding-top: 20px; padding-bottom: 20px;">
             <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width="40">
-            <div class="h5">{{ profile_user.username }}</div>
+            <div class="h6">{{ profile_user.username }}</div>
             <div class="text-muted" style="font-size: 12px; margin-top: -8px;">
                 <a href="https://twitter.com/{{ profile_user.screen_name }}" class="text-success">
                     @{{ profile_user.screen_name }}
@@ -33,16 +41,26 @@
                 {% endif %}
             </div>
             <br/>
-            {% if current_user.id != profile_user.id %}
             <style>
                 span.fa.fa-cog.mute-text{
                     color: #999999;
                 }
             </style>
-            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modal1">
-                この人に質問する。
-            </button>
-            <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+            <div class="row">
+                {% if current_user.id != profile_user.id %}
+                <div class="col-8 col-md-8 col-lg-8">
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modal0" style="font-size: 0.7rem;">
+                        この人に質問する。
+                    </button>
+                </div>
+                {% else %}
+                <div class="col-8 col-md-8 col-lg-8">
+                    <a href="#" class="btn btn-outline-success" style="font-size: 0.7rem;">プロフィールを編集</a>
+                </div>
+                {% endif %}
+
+            </div>
+            <div class="modal fade" id="modal0" tabindex="-1" role="dialog" aria-labelledby="label0" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -66,128 +84,66 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
         </div>
-        <div class="col-1 col-md-1 col-lg-1">
+        <div class="col-1 col-md-4 col-lg-4">
         </div>
     </div>
     <br/>
-<br/>
 <div class="container">
-    <ul class="nav row nav-pills" role="tablist">
-        <li class="nav-item col-6 col-md-2 col-lg-2">
-            <a class="nav-link active" id="item1-tab" data-toggle="tab" href="#item1" role="tab" aria-controls="item1" aria-selected="false" style="font-size: 0.8rem; margin: -15px; text-align: center;">未回答の貰った質問</a>
-        </li>
-        <li class="nav-item col-6 col-md-2 col-lg-2">
-            <a class="nav-link" id="item2-tab" data-toggle="tab" href="#item2" role="tab" aria-controls="item2" aria-selected="true" style="font-size: 0.8rem; margin: -15px; text-align: center;">回答済みの貰った質問</a>
-        </li>
-    </ul>
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded bg-white">
+        <i style="font-size: 2.0rem; margin: -0.5rem;" class="fa fa-comments text-success"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div style="font-size: 1.0rem; margin: -0.5rem;" class="text-success">回答した質問</div>
+    </div>
 </div>
 <br/>
-<div class="tab-content" style="">
-    <div class="tab-pane fade show active container" id="item1" role="tabpanel" aria-labelledby="item1-tab" style="margin: 0 auto;">
-        {% if profile_user.id == current_user.id %}
-            {% if questions_recieved_not_answered|length == 0 %}
+<div class="container">
+            {% if questions_recieved_answered|length == 0 %}
                 質問がありません。
             {% else %}
-                <br/>
-
                 <div class="row">
-                    {% for question_recieved_not_answered in questions_recieved_not_answered %}
+                    {% for question_recieved_answered in questions_recieved_answered %}{% set A_loop = loop %}
+                    {% for question_answer in questions_answers %}
+                        {% if A_loop.index == loop.index %}
                         <div class="col-12 col-md-4 col-lg-4">
-                            <a href="#">
-                                <div class="card mb-4 box-shadow" style="width: 100%; height: 220px;">
+                            <div>
+                                <div class="card mb-4 box-shadow" style="width: 100%; height: 340px;">
                                     <div style="width: 92%; margin: 0 auto;">
-                                        <small class="text-muted">{{ question_recieved_not_answered.date_published.strftime('%Y-%m-%d') }}</small>
+                                        <small class="text-muted">質問日{{ question_recieved_answered.date_published.strftime('%Y-%m-%d') }}</small>
                                     </div>
                                     <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
                                         <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
-                                            <p class="text-dark">{{ question_recieved_not_answered.body }}</p>
-                                            <div class="" style="position: relative; left: 86%; top: 70px; width: 20px">
+                                            <p class="text-dark">{{ question_recieved_answered.body }}</p>
+                                            <div class="" style="position: absolute; left: 86%; bottom: 0%;">
                                                 <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
                                             </div>
-                                        </div>
-
-                                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modal1" style="position: relative; left: 10px; top: 15px;">
-                                            <span class="fa fa-comment"></span>&nbsp;この質問に答える。
-                                        </button>
-                                        <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h6 class="text-dark">{{ question_recieved_not_answered.body }}に&nbsp;回答する</h6>
+                                        </div><br/>
+                                        <a href="/user/{{ profile_user.screen_name }}" class="" style="width: 100%;">
+                                            <div class="row">
+                                                <div class="col-2 col-lg-2 col-md-2">
+                                                    <div style="text-align: center">
+                                                        <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width="25" >
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <form action="/answer_question" method="post">
-                                                            <div class="form-group">
-                                                                <textarea class="form-control border border-info rounded" name="answer_body" rows="3" placeholder="回答を入力してください。"></textarea>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <input type="hidden" name="answer_user_id" value="{{ current_user.id }}">
-                                                                <input type="hidden" name="question_id" value="{{ question_recieved_not_answered.id }}">
-                                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-outline-success">回答する</button>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                                </div>
+                                                <div class="col-8 col-lg-8 col-md-8 text-dark">
+                                                    <div style="text-align: left; margin-left: -15px;">
+                                                        <div class="text-success" style="font-size: 14px;">{{ profile_user.username }}</div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </a>
+                                        <div class="text-dark" style="font-size: 12px; height: 60px;"><br/>{{ question_answer }}</div>
+                                        <br/>
+                                        <div class="container">
+                                            <a class="text-success" href="/question/{{question_recieved_answered.id}}" style="font-size: 1.0rem;"><span class="fa fa-comments"></span>&nbsp;他のユーザーの回答を見る</a>
+                                        </div><br/>
                                     </div>
                                 </div>
-                            </a>
+                            </div>
                         </div>
+                        {% endif %}
+                    {% endfor %}
                     {% endfor %}
                 </div>
             {% endif %}
-        {% else %}
-            閲覧することができません。
-        {% endif %}
-    </div>
-    <div class="tab-pane fade" id="item2" role="tabpanel" aria-labelledby="item2-tab" style="margin: 0 auto;">
-      {% if questions_recieved_answered|length == 0 %}
-        質問がありません。
-      {% else %}
-        <div class="row">
-          {% for question_recieved_answered in questions_recieved_answered %}{% set A_list_loop = loop %}
-            {% for question_answer in questions_answers %}
-              {% if loop.index==A_list_loop.index %}
-                <div class="col-12 col-md-4 col-lg-4">
-                  <a href="#">
-                    <div class="card mb-4 box-shadow" style="width: 100%; height: 320px;">
-                      <div style="width: 92%; margin: 0 auto;">
-                        <small class="text-muted">{{ question_recieved_answered.date_published.strftime('%Y-%m-%d') }}</small>
-                      </div>
-                      <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
-                        <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
-                          <p class="text-dark">{{ question_recieved_answered.body }}</p>
-                          <div class="" style="position: relative; left: 86%; top: 70px; width: 20px">
-                            <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
-                          </div>
-                        </div>
-                        <br/>
-                        <div class="row" style="width: 100%;">
-                          <div class="col-1 col-lg-1 col-md-1" style="">
-                            <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width="20">
-                          </div>
-                          <div class="col-10 col-lg-10 col-md-10 text-dark">
-                            <a href="/user/{{ profile_user.screen_name }}"><div class="text-success" style="font-size: 16px;">{{ profile_user.username }}</div></a>
-                          </div>
-                          <div class="col-1 col-md-1 col-lg-1"></div>
-                          <div class="text-dark col-11 col-md-11 col-lg-11" style="font-size: 12px;"><br/>{{ question_answer }}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              {% endif %}
-            {% endfor %}
-          {% endfor %}
-        </div>
-      {% endif %}
-    </div>
 </div>
 {% endblock %}

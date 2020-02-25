@@ -27,23 +27,29 @@
 
     <nav class="navbar navbar-expand-md navbar-white bg-white fixed-top">
         {% if current_user.is_authenticated %}
-            <a href="/user/{{ current_user.screen_name }}">
-                <img src="{{ current_user.user_image_url }}" class="rounded-circle" width="40px">
-            </a>
-            <div class="d-lg-none d-md-none d-block" style="margin: 0 auto;">
-                <a href="/">
-                    <img src="{{ url_for('static', filename='tree.png') }}" width="40">
-                </a>
-            </div>
-        {% else %}
-            <a class="navbar-brand" href="/">
-                <img src="{{ url_for('static', filename='tree.png') }}" width="40px" class="rounded-circle">
-            </a>
-        {% endif %}
-        <button class="navbar-toggler border border-info" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-            aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation" style="font-size: 1.6em;">
-            <span class="fa fa-bars text-info"></span>
-        </button>
+                    <div>
+                        <a href="/user/{{ current_user.screen_name }}">
+                            <img src="{{ current_user.user_image_url }}" class="rounded-circle" width="40px">
+                        </a>
+                    </div>
+                    <div class="d-lg-none d-md-none d-block" style="position: relative; width: 60%;">
+                        {% block page_title %}
+                            <a href="/">
+                                <div style="text-align: center;">
+                                    <img src="{{ url_for('static', filename='tree.png') }}" width="40">
+                                </div>
+                            </a>
+                        {% endblock %}
+                    </div>
+                {% else %}
+                        <a class="navbar-brand" href="/">
+                            <img src="{{ url_for('static', filename='tree.png') }}" width="40px" class="rounded-circle">
+                        </a>
+                {% endif %}
+                <button class="navbar-toggler border border-info" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation" style="font-size: 1.6em;">
+                    <span class="fa fa-bars text-info"></span>
+                </button>
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
             <ul class="navbar-nav mr-auto navbar-right">
                 <li class="nav-item">
@@ -53,14 +59,20 @@
                     <a class="nav-link" href="#"><span class="fa fa-book"></span>&nbsp;使用方法について</a>
                 </li>
                 {% if current_user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="https://twitter.com/{{ current_user.screen_name }}"><span class="fa fa-twitter"></span>&nbsp;Go to Twitter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/send"><i class="fa fa-comments"></i>&nbsp;送った質問</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="fa fa-comments">&nbsp;質問</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="/send"><i class="fa fa-upload"></i>&nbsp;送った質問</a>
+                        <a class="dropdown-item" href="/recieved"><i class="fa fa-download"></i>&nbsp;届いた質問</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/user/{{ current_user.screen_name }}"><i class="fa fa-user-circle"></i>&nbsp;プロフィール</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://twitter.com/{{ current_user.screen_name }}"><span class="fa fa-twitter"></span>&nbsp;Go to Twitter</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-cog"></i>&nbsp;設定</a>
@@ -79,7 +91,7 @@
             {% for category, message in messages %}
                     <div class="alert alert-{{ category }} alert-dismissible" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        {{ message }}
+                        <div style="font-size: 0.8rem;">{{ message }}</div>
                     </div>
             {% endfor %}
         {% endif %}

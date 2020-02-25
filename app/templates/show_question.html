@@ -1,39 +1,95 @@
 {% extends "base.html" %}
+{% block page_title %}
+<div style="font-size: 1.0rem;text-align: center;">質問</div>
+{% endblock %}
 {% block content %}
-<div class="row">
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-lg-4"></div>
+    <div class="col-12 col-md-4 col-lg-4" style="">
+      <div>
+        <div class="card mb-4 box-shadow" style="width: 100%; height: 240px;">
+          <div style="width: 92%; margin: 0 auto;">
+            <small class="text-muted">質問日{{ question.date_published.strftime('%Y-%m-%d') }}</small>
+          </div>
+          <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
+            <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
+              <p class="text-dark">{{ question.body }}</p>
+              <div class="" style="position: absolute; left: 86%; bottom: 0%;">
+                <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
+              </div>
+            </div>
+            <br/>
+              <div style="text-align: center;">
+                  <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modal_1" style="font-size: 0.9rem;">
+                    <span class="fa fa-comment"></span>&nbsp;自分もこの質問に答える。
+                  </button>
+              </div>
+              <div class="modal fade" id="modal_1" tabindex="-1" role="dialog" aria-labelledby="label1" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h6 class="text-dark">{{ question.body }}&nbsp;に回答する</h6>
+                          </div>
+                          <div class="modal-body">
+                              <form action="/answer_question" method="post">
+                                  <div class="form-group">
+                                      <textarea class="form-control border border-info rounded" name="answer_body" rows="3" placeholder="回答を入力してください。"></textarea>
+                                  </div>
+                                  <div class="form-group">
+                                      <input type="hidden" name="answer_user_id" value="{{ current_user.id }}">
+                                      <input type="hidden" name="question_id" value="{{ question.id }}">
+                                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                  </div>
+                                  <button type="submit" class="btn btn-outline-success">回答する</button>
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-4"></div>
+  </div>
+</div>
+<div class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded bg-white">
+        <i style="font-size: 2.0rem; margin: -0.5rem;" class="fa fa-comments text-success"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div style="font-size: 1.0rem; margin: -0.5rem;" class="text-success">この質問へのみんなの回答</div>
+    </div>
+</div>
+<div class="container">
+  <div class="row">
           {% for user_answered in users_answered %}{% set A_list_loop = loop %}
             {% for user_answered_body in users_answered_body %}
               {% if loop.index==A_list_loop.index %}
                 <div class="col-12 col-md-4 col-lg-4">
-                  <a href="#">
-                    <div class="card mb-4 box-shadow" style="width: 100%; height: 280px;">
-                      <div style="width: 92%; margin: 0 auto;">
-                        <small class="text-muted">{{ question_recieved_answered.date_published.strftime('%Y-%m-%d') }}</small>
-                      </div>
-                      <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
-                        <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
-                          <p class="text-dark">{{ question_recieved_answered.body }}</p>
-                          <div class="" style="position: relative; left: 86%; top: 70px; width: 20px">
-                            <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
+                    <div class="card mb-4 box-shadow rounded" style="width: 100%; height: 120px; padding: 10px;">
+                        <a href="/user/{{ user_answered.screen_name }}" class="" style="width: 100%;">
+                          <div class="row">
+                            <div class="col-2 col-lg-2 col-md-2">
+                              <div style="text-align: center">
+                                  <img src="{{ user_answered.user_image_url }}" class="rounded-circle" width="25" >
+                              </div>
+                            </div>
+                            <div class="col-8 col-lg-8 col-md-8 text-dark">
+                                <div style="text-align: left; margin-left: -15px;">
+                                    <div class="text-success" style="font-size: 14px;">{{ user_answered.username }}</div>
+                                </div>
+                            </div>
                           </div>
-                        </div>
-                        <br/>
-                        <div class="row" style="width: 100%;">
-                          <div class="col-1 col-lg-1 col-md-1" style="">
-                            <img src="{{ current_user.user_image_url }}" class="rounded-circle" width="20">
-                          </div>
-                          <div class="col-10 col-lg-10 col-md-10 text-dark">
-                            <a href="/user/{{ current_user.screen_name }}"><div class="text-success" style="font-size: 16px;">{{ current_user.username }}</div></a>
-                          </div>
-                          <div class="col-1 col-md-1 col-lg-1"></div>
-                          <div class="text-dark col-11 col-md-11 col-lg-11" style="font-size: 12px;">{{ question_answer }}</div>
-                        </div>
-                      </div>
+                        </a>
+                        <div class="text-dark" style="font-size: 12px;"><br/>{{ user_answered_body }}</div>
                     </div>
-                  </a>
                 </div>
               {% endif %}
             {% endfor %}
           {% endfor %}
-        </div>
+  </div>
+</div>
 {% endblock %}
