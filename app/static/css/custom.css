@@ -14,6 +14,13 @@ nav .navbar-nav li a:hover{
     color: #B0E0E6;
 }
 
+body > div > div > div > div.col-lg-4.col-md-4.col-12 > div > a{
+    color: #5bc0de;
+}
+body > div > div > div > div.col-lg-4.col-md-4.col-12 > div > a:hover{
+    color: #B0E0E6;
+}
+
 .nav-pills .nav-item .nav-link:not(.active) {
     color: #5cb85c;
     background-color: white;

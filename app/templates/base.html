@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
@@ -24,58 +25,54 @@
 </head>
 
 <body class="bg-light">
-
-    <nav class="navbar navbar-expand-md navbar-white bg-white fixed-top">
+    <nav class="navbar navbar-expand-md navbar-white bg-white fixed-top" style="z-index: 999;">
         {% if current_user.is_authenticated %}
-                    <div>
-                        <a href="/user/{{ current_user.screen_name }}">
-                            <img src="{{ current_user.user_image_url }}" class="rounded-circle" width="40px">
-                        </a>
-                    </div>
-                    <div class="d-lg-none d-md-none d-block" style="position: relative; width: 60%;">
-                        {% block page_title %}
-                            <a href="/">
-                                <div style="text-align: center;">
-                                    <img src="{{ url_for('static', filename='tree.png') }}" width="40">
-                                </div>
-                            </a>
-                        {% endblock %}
-                    </div>
-                {% else %}
-                        <a class="navbar-brand" href="/">
-                            <img src="{{ url_for('static', filename='tree.png') }}" width="40px" class="rounded-circle">
-                        </a>
-                {% endif %}
-                <button class="navbar-toggler border border-info" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
-                        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation" style="font-size: 1.6em;">
-                    <span class="fa fa-bars text-info"></span>
-                </button>
+            <div>
+                <a href="/user/{{ current_user.screen_name }}" class="navbar-brand">
+                    <img src="{{ current_user.user_image_url }}" class="rounded-circle" width="40px" style="margin: -5px;">
+                </a>
+            </div>
+            <div class="d-lg-none d-md-none d-block" style="position: relative; width: 60%;">
+                {% block page_title %}
+                    <a href="/">
+                        <div style="text-align: center;">
+                            <img src="{{ url_for('static', filename='tree.png') }}" width="45px">
+                        </div>
+                    </a>
+                {% endblock %}
+            </div>
+        {% else %}
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='tree.png') }}" width="45px" class="rounded-circle" style="margin: -8px;">
+            </a>
+        {% endif %}
+        <button class="navbar-toggler border border-info" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation" style="font-size: 1.6em;">
+            <span class="fa fa-bars text-info"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto navbar-right">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/"><span class="fa fa-tree"></span>&nbsp;ホーム</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><span class="fa fa-book"></span>&nbsp;使用方法について</a>
+                    <a class="nav-link" href="#">
+                        <span class="fa fa-book"></span>&nbsp;使用方法について
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <span class="far fa-comments">&nbsp;</span>よくある質問
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://twitter.com/Tomohir65030292"><span class="fab fa-twitter"></span>&nbsp;公式Twitter</a>
                 </li>
                 {% if current_user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-comments">&nbsp;質問</span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="/send"><i class="fa fa-upload"></i>&nbsp;送った質問</a>
-                        <a class="dropdown-item" href="/recieved"><i class="fa fa-download"></i>&nbsp;届いた質問</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/send"><i class="fa fa-upload"></i>&nbsp;送った質問</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/{{ current_user.screen_name }}"><i class="fa fa-user-circle"></i>&nbsp;プロフィール</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="https://twitter.com/{{ current_user.screen_name }}"><span class="fa fa-twitter"></span>&nbsp;Go to Twitter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-cog"></i>&nbsp;設定</a>
+                    <a class="nav-link" href="#"><i class="fas fa-user-cog"></i>&nbsp;ユーザー設定</a>
                 </li>
                 {% endif %}
             </ul>
@@ -85,6 +82,36 @@
             </form>
         </div>
     </nav>
+    <div class="bg-white" style="position: fixed; top: 42px; width: 100%; z-index: 99;">
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4"></div>
+                <div class="col-lg-4 col-md-4 col-12">
+                    <div class="row" style="margin-top: -9px; margin-bottom: 3px;">
+                        <a href="/" class="col-md-3 col-lg-3 col-3" style="text-align: center;">
+                            <i class="fa fa-home" style="font-size: 1.5rem;"></i><br/>
+                            <div style="text-align: center; font-size: 0.55rem; width: 130%; position: relative; left: -15%">ホーム</div>
+                        </a>
+                        <a href="/user/{{current_user.screen_name}}" class="col-md-3 col-lg-3 col-3" style="text-align: center;">
+                            <i class="fas fa-user-circle" style="font-size: 1.5rem;"></i><br/>
+                            <div style="text-align: center; font-size: 0.55rem; width: 130%; position: relative; left: -15%">プロフィール</div>
+                        </a>
+                        <a href="/recieved" class="col-md-3 col-lg-3 col-3" style="text-align: center;">
+                            <i class="fa fa-download" style="font-size: 1.5rem;"></i><br/>
+                            <div style="text-align: center; font-size: 0.55rem; width: 130%; position: relative; left: -15%">届いた質問</div>
+                        </a>
+                        <a href="#" class="col-md-3 col-lg-3 col-3" style="text-align: center;">
+                            <i class="fa fa-users" style="font-size: 1.5rem;"></i><br/>
+                            <div style="text-align: center; font-size: 0.55rem; width: 130%; position: relative; left: -15%">知り合いの回答</div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4"></div>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
     {% with messages = get_flashed_messages(with_categories=true) %}
         <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
         {% if messages %}
@@ -96,6 +123,7 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+    <br/><br/>
     <main role="main" class="container">
         {% block content %}{% endblock %}
     </main><!-- /.container -->

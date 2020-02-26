@@ -6,17 +6,17 @@
     <h1>Welcome</h1>
     {% else %}
     <div class="row">
-        <div class="col-2 col-md-3 col-lg-3"></div>
-        <div class="col-8 col-md-6 col-lg-6 rounded-circle bg-white">
+        <div class="col-1 col-md-3 col-lg-3"></div>
+        <div class="col-10 col-md-6 col-lg-6 rounded-circle bg-white">
             <img src="{{ url_for('static', filename='tree.png') }}" width="200px">
         </div>
-        <div class="col-2col-md-3 col-lg-3"></div>
+        <div class="col-1col-md-3 col-lg-3"></div>
     </div>
     <br/>
     <div class="row">
-        <div class="col-2 col-md-4 col-lg-4"></div>
-        <div class="col-8 col-md-4 col-lg-4"><a href="/oauth/twitter" class="btn btn-outline-success"><span class="fa fa-twitter"></span>Twitterでログイン</a></div>
-        <div class="col-2 col-md-4 col-lg-4"></div>
+        <div class="col-1 col-md-4 col-lg-4"></div>
+        <div class="col-10 col-md-4 col-lg-4"><a href="/oauth/twitter" class="btn btn-outline-success"><i class="fab fa-twitter"></i>Twitterでログイン</a></div>
+        <div class="col-1 col-md-4 col-lg-4"></div>
     </div>
     {% endif %}
 </div>    

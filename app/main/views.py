@@ -102,7 +102,7 @@ def show_user(screen_name):
         if profile_user is None:
             return render_template('error/404.html')
         else:
-            all_questions = Question.query.all() #全ての質問
+            all_questions = profile_user.questions #全ての質問
             questions_recieved_answered = [] #自分宛じゃない質問も含めた答えた質問
 
             questions_answers = []

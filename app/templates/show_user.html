@@ -25,12 +25,12 @@
     </div>
     <br/><br/>
     <div class="row">
-        <div class="col-1 col-md-4 col-lg-4">
+        <div class="col-1 col-md-3 col-lg-3">
         </div>
-        <div class="col-10 col-md-4 col-lg-4 box-shadow bg-white rounded" style="padding-top: 20px; padding-bottom: 20px;">
-            <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width="40">
-            <div class="h6">{{ profile_user.username }}</div>
-            <div class="text-muted" style="font-size: 12px; margin-top: -8px;">
+        <div class="col-10 col-md-6 col-lg-6 box-shadow bg-white rounded" style="padding-top: 20px; padding-bottom: 20px;">
+            <img src="{{ profile_user.user_image_url }}" class="rounded-circle" width=60">
+            <div style="font-size: 1.3rem;">{{ profile_user.username }}</div>
+            <div class="text-muted" style="font-size: 0.9rem; margin-top: -8px;">
                 <a href="https://twitter.com/{{ profile_user.screen_name }}" class="text-success">
                     @{{ profile_user.screen_name }}
                 </a>
@@ -125,13 +125,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-8 col-lg-8 col-md-8 text-dark">
-                                                    <div style="text-align: left; margin-left: -15px;">
-                                                        <div class="text-success" style="font-size: 14px;">{{ profile_user.username }}</div>
+                                                    <div style="position: relative; right: 20px; top: 5px;">
+                                                        <div class="text-success" style="font-size: 0.9rem;">{{ profile_user.username }}</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </a>
-                                        <div class="text-dark" style="font-size: 12px; height: 60px;"><br/>{{ question_answer }}</div>
+                                        <div class="container">
+                                            <div class="text-dark" style="font-size: 12px; height: 60px; position: relative; bottom: 10px;"><br/>{{ question_answer }}</div>
+                                        </div>
                                         <br/>
                                         <div class="container">
                                             <a class="text-success" href="/question/{{question_recieved_answered.id}}" style="font-size: 1.0rem;"><span class="fa fa-comments"></span>&nbsp;他のユーザーの回答を見る</a>
