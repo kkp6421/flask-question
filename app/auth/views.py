@@ -1,6 +1,7 @@
 from rauth import OAuth1Service
 from flask import redirect, session, request, url_for
 from flask_login import logout_user, current_user, login_user
+import tweepy
 import os
 from app.models import User, db
 from . import auth
@@ -32,6 +33,8 @@ def oauth_authorize():
         session['request_token'] = request_token
         return redirect(service.get_authorize_url(request_token[0]))
 
+
+friends_ids = []
 @auth.route('/oauth/twitter/callback')
 def oauth_callback():
     request_token = session.pop('request_token')
@@ -56,4 +59,17 @@ def oauth_callback():
     db.session.add(user)
     db.session.commit()
     login_user(user, True)
+    auth = tweepy.OAuthHandler(
+        os.environ.get('consumer_key'),
+        os.environ.get('consumer_secret')
+    )
+    auth.set_access_token(
+        os.environ.get('access_key'),
+        os.environ.get('access_secret')
+    )
+    global friends_ids
+    api = tweepy.API(auth)
+    friends = tweepy.Cursor(api.friends_ids, screen_name=current_user.screen_name, count=4000).pages
+    for f in friends():
+        friends_ids.extend(f)
     return redirect(url_for('main.index'))

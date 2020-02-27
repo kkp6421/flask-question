@@ -8,3 +8,4 @@ psycopg2
 flask-script
 flask-migrate
 sqlalchemy-utils
+tweepy

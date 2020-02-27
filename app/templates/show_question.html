@@ -69,7 +69,7 @@
             {% for user_answered_body in users_answered_body %}
               {% if loop.index==A_list_loop.index %}
                 <div class="col-12 col-md-4 col-lg-4">
-                    <div class="card mb-4 box-shadow rounded" style="width: 100%; height: 120px; padding: 10px;">
+                    <div class="card mb-4 box-shadow rounded" style="width: 100%; height: 140px; padding: 10px;">
                         <a href="/user/{{ user_answered.screen_name }}" class="" style="width: 100%;">
                           <div class="row">
                             <div class="col-2 col-lg-2 col-md-2">
@@ -77,14 +77,16 @@
                                   <img src="{{ user_answered.user_image_url }}" class="rounded-circle" width="25" >
                               </div>
                             </div>
-                            <div class="col-8 col-lg-8 col-md-8 text-dark">
-                                <div style="text-align: left; margin-left: -15px;">
-                                    <div class="text-success" style="font-size: 14px;">{{ user_answered.username }}</div>
+                            <div class="col-10 col-lg-10 col-md-10 text-dark">
+                                <div style="position: relative; right: 18px; top: 5px;">
+                                    <div class="text-success" style="font-size: 0.9rem;">{{ user_answered.username }}</div>
                                 </div>
                             </div>
                           </div>
                         </a>
-                        <div class="text-dark" style="font-size: 12px;"><br/>{{ user_answered_body }}</div>
+                        <div class="container" style="position: relative; bottom: 10px;">
+                            <div class="text-dark" style="font-size: 0.8rem;;"><br/>{{ user_answered_body }}</div>
+                        </div>
                     </div>
                 </div>
               {% endif %}

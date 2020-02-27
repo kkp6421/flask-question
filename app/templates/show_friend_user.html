@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block page_title %}
+<div style="font-size: 1.0rem;text-align: center;">知り合いのユーザー</div>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% if friend_users|length == 0 %}
+            <div style="font-size: 1.0rem;">知り合いがまだいません。</div>
+        {% else %}
+        {% for user in friend_users %}{% set A_loop = loop %}
+        {% for question in friend_users_questions %}{% set B_loop = loop %}
+        {% if A_loop.index == B_loop.index %}
+        {% for answer in friend_users_answers %}
+        {% if B_loop.index == loop.index %}
+        <div class="col-12 col-md-4 col-lg-4">
+            <div>
+                <div class="card mb-4 box-shadow" style="width: 100%; height: 360px;">
+                    <div style="width: 92%; margin: 0 auto; height: 70px; position: relative; top: 10px;">
+                        <a href="/user/{{ user.screen_name }}" class="" style="width: 100%;">
+                            <div class="row">
+                                <div class="col-2 col-lg-2 col-md-2">
+                                    <div style="text-align: center">
+                                        <img src="{{ user.user_image_url }}" class="rounded-circle" width="25" >
+                                    </div>
+                                </div>
+                                <div class="col-10 col-lg-10 col-md-10 text-dark">
+                                    <div style="position: relative; right: 20px; top: 5px;">
+                                        <div class="text-success" style="font-size: 0.9rem;">{{ user.username }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <small class="text-muted">最近回答した質問</small>
+                    </div>
+                    {% if answer is none %}
+                        <div style="font-size: 0.8rem;">回答がまだありません。</div>
+                    {% else %}
+                    <div class="card-img-top bg-success rounded" style="width: 92%; height: 140px; margin: 0 auto; ">
+                        <div class="bg-white rounded" style="width: 98%; height: 96%; margin: 0 auto; position: relative; top: 3px;">
+                            <p class="text-dark">{{ question.body }}</p>
+                            <div class="" style="position: absolute; left: 86%; bottom: 0%;">
+                                <img src="{{ url_for('static', filename='tree.png') }}" width="25px">
+                            </div>
+                        </div><br/>
+                        <div class="container">
+                            <div class="text-dark" style="font-size: 12px; height: 60px; position: relative; bottom: 20px;"><br/>{{ answer }}</div>
+                        </div>
+                        <br/>
+                        <div class="container">
+                            <a class="text-success" href="/question/{{question.id}}" style="font-size: 1.0rem;"><span class="fa fa-comments"></span>&nbsp;他のユーザーの回答を見る</a>
+                        </div><br/>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

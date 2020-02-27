@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from app.models import User, Question, UserQuestion
 from . import main
 from .. import db
+from ..auth.views import friends_ids
 
 @main.route("/")
 def index():
@@ -125,6 +126,37 @@ def show_user(screen_name):
         flash("ログインしてください", "warning")
         return redirect(url_for('main.index'))
 
+@main.route("/friend_user")
+def show_friend_user():
+    if current_user.is_authenticated:
+        friend_users = []
+        friend_users_questions = []
+        friend_users_answers = []
+        for friend_id in friends_ids:
+            user = User.query.filter_by(twitter_id=str(friend_id)).first()
+            flag = False
+            if user is not None:
+                friend_users.append(user)
+                if len(user.questions) != 0:
+                    for q in list(reversed(user.questions)):
+                        for user_question in user.user_question:
+                            if user_question.question_id == q.id and user_question.answer_body is not None:
+                                friend_users_questions.append(q)
+                                friend_users_answers.append(user_question.answer_body)
+                                flag = True
+                                break
+                        if flag:
+                            break
+                else:
+                    friend_users_questions.append(None)
+        return render_template('show_friend_user.html',
+                               friend_users=friend_users,
+                               friend_users_questions=friend_users_questions,
+                               friend_users_answers=friend_users_answers
+                               )
+    else:
+        flash("ログインしてください。", "warning")
+        return redirect(url_for('main.index'))
 #質問を送る処理
 #recive_userだけQuestionとrelationする。
 @main.route("/send_question", methods=['POST'])
