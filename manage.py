@@ -1,10 +1,18 @@
+from flask import session
 from flask_script import Shell, Manager, Server
 from flask_migrate import MigrateCommand, Migrate
 from app.models import User, UserQuestion, Question
 from app import create_app, db
 import os
+from datetime import timedelta
 
 app = create_app(config_name=os.environ.get('FLASK_CONFIG') or 'default')
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=30)
+
 manager = Manager(app)
 
 def make_shell_context():

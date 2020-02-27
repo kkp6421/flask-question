@@ -28,3 +28,4 @@ def create_app(config_name):
     app.register_blueprint(error_blueprint)
 
     return app
+
